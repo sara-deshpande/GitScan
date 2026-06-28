@@ -1,10 +1,11 @@
+import './Navbar.css';
+
 const Navbar = () => {
     return ( 
         <nav className="navbar">
-            <h1>GitScan</h1>
-            <div className="links">
-                <a href="/"></a>
-                <a href="/create">Home page</a>
+            <div className="navbar-logo">
+            <div className="logo-dot"></div>
+            <span>GitScan</span>
             </div>
         </nav>
      );

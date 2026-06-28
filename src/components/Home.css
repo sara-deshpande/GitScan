@@ -1,0 +1,61 @@
+.home {
+    text-align: center;
+    padding: 4rem 0 2rem;
+  }
+  
+  .home h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 12px;
+  }
+  
+  .home p {
+    font-size: 16px;
+    color: #4a6fa5;
+    margin-bottom: 2rem;
+  }
+  
+  .home-card {
+    background: #ffffff;
+    border: 1px solid #c5d8ef;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .home-card input,
+  .home-card select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #b8d4f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0d1b2a;
+    background: #f4f8fd;
+    margin-bottom: 1rem;
+    outline: none;
+  }
+  
+  .home-card input:focus,
+  .home-card select:focus {
+    border-color: #4a6fa5;
+    background: #ffffff;
+  }
+  
+  .home-card button {
+    width: 100%;
+    padding: 10px;
+    background: #1a3a5c;
+    color: #e8f1fb;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .home-card button:hover {
+    background: #14304d;
+  }
