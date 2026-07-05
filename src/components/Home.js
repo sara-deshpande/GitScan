@@ -1,15 +1,53 @@
 import './Home.css';
+import { useState } from 'react';
 
 const Home = () => {
+
+    const [ username, setUsername ] = useState ('');
+    const [role, setRole ] = useState ('');
+    const [isLoading, setIsLoading ] = useState (false);
+
     const handleClick = () => {
-        console.log('Profile Scanned');
+        if (!username) {
+            console.log('Please enter a username');
+            return;
+        }
+        if (!role) {
+            console.log('Please select a job role');
+            return;
+        }
+        
+        setIsLoading(true);
+        console.log ('Scanning:', username, role);
     }
 
     return ( 
         <div className="home">
             <h2>Analyze your Github profile</h2>
             <p>Get recruiter perspective feedback based on your target roles</p>
-            <button onClick={handleClick}> Scan Profile </button>
+            <div className="home-card">
+                <input type="text"
+                placeholder="Enter GitHub username "
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                />
+                <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    >
+                        <option value="" disabled>Select Job Role </option>
+                         <option>Frontend Engineer</option>
+                         <option>Backend Engineer</option>
+                         <option>Full-Stack Engineer</option>
+                         <option>ML Engineer</option>
+                         <option>DevOps Engineer</option>
+                         <option>Software Engineer</option>
+                         <option>Data Analyst</option>
+                         <option>Data Scientist</option>
+                </select>
+                <button onClick={handleClick}> Scan Profile </button>
+                {isLoading && <p>Scanning profile...</p>}
+            </div>
         </div>
      );
 }
