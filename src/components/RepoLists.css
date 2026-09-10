@@ -1,0 +1,50 @@
+.repo-list {
+    margin-top: 1.5rem;
+  }
+  
+  .repo-list h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 1rem;
+  }
+  
+  .repo-card {
+    background: #ffffff;
+    border: 1px solid #c5d8ef;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 10px;
+  }
+  
+  .repo-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 4px;
+  }
+  
+  .repo-card p {
+    font-size: 13px;
+    color: #4a6fa5;
+    margin-bottom: 8px;
+  }
+  
+  .repo-meta {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .repo-language {
+    font-size: 12px;
+    background: #ddeeff;
+    color: #1a3a5c;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+  
+  .repo-stars {
+    font-size: 12px;
+    color: #4a6fa5;
+  }
