@@ -1,7 +1,15 @@
 import './Home.css';
 import { useState } from 'react';
+import RepoLists from './RepoLists';
 
 const Home = () => {
+
+    const repos = [
+        { id: 1, name: 'GitScan', language: 'JavaScript', description: 'GitHub profile analyzer', stars: 4 },
+        { id: 2, name: 'AI-Travel-Planner', language: 'Java', description: 'AI powered itinerary generator', stars: 12 },
+        { id: 3, name: 'Shortest-Path-Visualizer', language: 'JavaScript', description: 'Graph algorithm visualizer', stars: 7 },
+        { id: 4, name: 'Inventory-System', language: 'Java', description: 'Apparel store inventory manager', stars: 2 },
+      ];
 
     const [ username, setUsername ] = useState ('');
     const [role, setRole ] = useState ('');
@@ -48,6 +56,7 @@ const Home = () => {
                 <button onClick={handleClick}> Scan Profile </button>
                 {isLoading && <p>Scanning profile...</p>}
             </div>
+            <RepoLists repos={repos}/>
         </div>
      );
 }
