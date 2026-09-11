@@ -44,7 +44,12 @@ const Home = () => {
             setProfileData(userData);
             setRepos(reposData);
             setIsLoading(false);
-        });
+        })
+        .catch(err => {
+            setError('Something went wrong. Check your connection and try again later');
+            setIsLoading(false);
+            console.log(err);
+        })
     }
 
     useEffect(() => {
@@ -79,6 +84,10 @@ const Home = () => {
                     <option>Software Engineer</option>
                     <option>Data Analyst</option>
                     <option>Data Scientist</option>
+                    <option> Application Developer</option>
+                    <option>Software Developer</option>
+                    <option>Mobile Application Developer</option>
+
                 </select>
                 <button onClick={handleClick}>Scan Profile</button>
                 {error && <p className="error-message">{error}</p>}
