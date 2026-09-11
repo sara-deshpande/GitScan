@@ -59,3 +59,14 @@
   .home-card button:hover {
     background: #14304d;
   }
+
+  .error-message {
+    color: #c0392b;
+    background: #fdecea;
+    border: 1px solid #f5c6c2;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    text-align: center;
+}
