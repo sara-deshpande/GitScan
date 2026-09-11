@@ -35,6 +35,12 @@ const Home = () => {
                 setIsLoading(false);
                 return;
             }
+
+            if (userData.message === 'API rate limit exceeded'){
+                setError('GitHub API rate limit reached. Please wait an hour and try again.');
+                setIsLoading(false);
+                return;
+            }
             setProfileData(userData);
             setRepos(reposData);
             setIsLoading(false);
@@ -75,11 +81,14 @@ const Home = () => {
                     <option>Data Scientist</option>
                 </select>
                 <button onClick={handleClick}>Scan Profile</button>
-                {isLoading && <p>Scanning profile...</p>}
                 {error && <p className="error-message">{error}</p>}
             </div>
 
-            {profileData && (
+            {isLoading && <div className="loading">
+                <p>Scanning Profile....</p>
+            </div> }
+
+            {!isLoading && profileData && (
                 <div className="profile-preview">
                     <img src={profileData.avatar_url} alt="avatar" width="60" />
                     <h3>{profileData.name}</h3>
@@ -89,7 +98,7 @@ const Home = () => {
                 </div>
             )}
 
-            {repos.length > 0 && (
+            {!isLoading && repos.length > 0 && (
                 <RepoLists repos={repos} title="Public Repositories" />
             )}
         </div>
