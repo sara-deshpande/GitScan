@@ -1,5 +1,5 @@
 import './Home.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RepoLists from './RepoLists';
 
 const Home = () => {
@@ -28,6 +28,16 @@ const Home = () => {
         setIsLoading(true);
         console.log ('Scanning:', username, role);
     }
+
+    useEffect(() => {
+        if (!username) return;
+
+        console.log('Ready to fetch GitHub data for :', username);
+    }, [username] ); 
+
+    useEffect(() => {
+        document.title = username ? `GitScan — ${username}` : 'GitScan';
+      }, [username]);
 
     return ( 
         <div className="home">
