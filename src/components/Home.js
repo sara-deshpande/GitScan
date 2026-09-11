@@ -25,15 +25,19 @@ const Home = () => {
         setError('');
 
         Promise.all([
-            fetch(`https://api.github.com/users/${username}`).then(res => res.json()),
-            fetch(`https://api.github.com/users/${username}/repos`).then(res => res.json())
+            fetch(`https://api.github.com/users/${username}`).then(res => res.json()), //endpoints
+            fetch(`https://api.github.com/users/${username}/repos`).then(res => res.json())  //endpoints
         ])
         .then(([userData, reposData]) => {
+
+            if (userData.message === 'Not Found') {
+                setError('GitHub user not found. Check the username and try again');
+                setIsLoading(false);
+                return;
+            }
             setProfileData(userData);
             setRepos(reposData);
             setIsLoading(false);
-            console.log('Profile:', userData);
-            console.log('Repos:', reposData);
         });
     }
 
