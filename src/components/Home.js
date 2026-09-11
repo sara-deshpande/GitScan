@@ -29,14 +29,18 @@ const Home = () => {
         console.log ('Scanning:', username, role);
     }
 
+// foundation for github Api call, fires onlywhen both inputs are ready
     useEffect(() => {
-        if (!username) return;
-
-        console.log('Ready to fetch GitHub data for :', username);
-    }, [username] ); 
+        if (!username || !role ) return;
+        //real API call will go here
+    }, [username, role] ); 
 
     useEffect(() => {
         document.title = username ? `GitScan — ${username}` : 'GitScan';
+
+        return () => {
+            document.title = 'GitScan';
+        };
       }, [username]);
 
     return ( 
