@@ -59,6 +59,7 @@ const Home = () => {
                     <option> Application Developer</option>
                     <option>Software Developer</option>
                     <option>Mobile Application Developer</option>
+                    <option>AI Engineer</option>
 
                 </select>
                 <button onClick={handleClick}>Scan Profile</button>

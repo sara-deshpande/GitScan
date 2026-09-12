@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import ProfilePage from './components/ProfilePage';
 import ScorePage from './components/ScorePage';
 import ActionPage from './components/ActionPage';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/results" element={<ScorePage />} />
             <Route path="/action-plan" element={<ActionPage />} />
+            <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </div>
       </div>
