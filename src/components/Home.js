@@ -1,55 +1,27 @@
 import './Home.css';
 import { useState, useEffect } from 'react';
 import RepoLists from './RepoLists';
+import useGitHub from '../hooks/useGitHub';
 
 const Home = () => {
 
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [profileData, setProfileData] = useState(null);  
-    const [repos, setRepos] = useState([]);  
-    const [error, setError] = useState('');                
+    const [formError, setFormError] = useState('');
+    const {profileData, repos, isLoading, error, fetchGitHubData} = useGitHub();         
 
     const handleClick = () => {
         if (!username) {
-            setError('Please enter a username');
+            setFormError('Please enter a username');
             return;
         }
         if (!role) {
-            setError('Please select a job role');
+            setFormError('Please select a job role');
             return;
         }
 
-        setIsLoading(true);
-        setError('');
-
-        Promise.all([
-            fetch(`https://api.github.com/users/${username}`).then(res => res.json()), //endpoints
-            fetch(`https://api.github.com/users/${username}/repos`).then(res => res.json())  //endpoints
-        ])
-        .then(([userData, reposData]) => {
-
-            if (userData.message === 'Not Found') {
-                setError('GitHub user not found. Check the username and try again');
-                setIsLoading(false);
-                return;
-            }
-
-            if (userData.message === 'API rate limit exceeded'){
-                setError('GitHub API rate limit reached. Please wait an hour and try again.');
-                setIsLoading(false);
-                return;
-            }
-            setProfileData(userData);
-            setRepos(reposData);
-            setIsLoading(false);
-        })
-        .catch(err => {
-            setError('Something went wrong. Check your connection and try again later');
-            setIsLoading(false);
-            console.log(err);
-        })
+        setFormError('');
+        fetchGitHubData(username);
     }
 
     useEffect(() => {
@@ -91,6 +63,7 @@ const Home = () => {
                 </select>
                 <button onClick={handleClick}>Scan Profile</button>
                 {error && <p className="error-message">{error}</p>}
+                {formError && <p className="error-message">{formError}</p>}
             </div>
 
             {isLoading && <div className="loading">
