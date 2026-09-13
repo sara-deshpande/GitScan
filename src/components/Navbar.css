@@ -5,6 +5,7 @@
     font-size: 18px;
     font-weight: 600;
     color: #e8f1fb;
+    text-decoration: none;
   }
   
   .logo-dot {
@@ -24,8 +25,17 @@
     color: #b8d4f0;
     text-decoration: none;
     font-size: 14px;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s;
   }
   
   .navbar-links a:hover {
     color: #e8f1fb;
   }
+
+  .navbar-links a.active {
+    color: #e8f1fb;
+    font-weight: 600;
+    border-bottom: 2px solid #7eb8f7;
+}
