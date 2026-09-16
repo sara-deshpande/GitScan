@@ -14,9 +14,11 @@ const useGitHub = () => {
         setProfileData(null);
         setRepos([]);
 
+        const abortController = new AbortController();
+
         Promise.all([
-            fetch(`https://api.github.com/users/${username}`).then(res => res.json()), //endpoints
-            fetch(`https://api.github.com/users/${username}/repos`).then(res => res.json())  //endpoints
+            fetch(`https://api.github.com/users/${username}`, {signal: abortController.signal }).then(res => res.json()), //endpoints
+            fetch(`https://api.github.com/users/${username}/repos`,  {signal: abortController.signal }).then(res => res.json())  //endpoints
         ])
         .then(([userData, reposData]) => {
 
@@ -36,10 +38,15 @@ const useGitHub = () => {
             setIsLoading(false);
         })
         .catch(err => {
+            if (err.name === 'AbortError') {
+                console.log('Frtch Aborted');
+                return;
+            }
             setError('Something went wrong. Check your connection and try again later');
             setIsLoading(false);
-            console.log(err);
         });
+
+        return abortController;
     };
 
     return {profileData, repos, isLoading, error, fetchGitHubData};
