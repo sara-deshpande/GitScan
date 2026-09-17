@@ -2,8 +2,11 @@ import './Home.css';
 import { useState, useEffect } from 'react';
 import RepoLists from './RepoLists';
 import useGitHub from '../hooks/useGitHub';
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
+
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
@@ -22,6 +25,7 @@ const Home = () => {
 
         setFormError('');
         fetchGitHubData(username);
+        navigate(`/profile/${username}`);
     }
 
     useEffect(() => {
