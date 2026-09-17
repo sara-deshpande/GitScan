@@ -1,13 +1,23 @@
 import './ProfilePage.css';
 import {useParams} from "react-router-dom";
+import {useEffect} from 'react';
+import useGitHub from '../hooks/useGitHub';
 
 const ProfilePage = () => {
 
     const { username }= useParams();
+    const {profileData, repos, isLoading, error, fetchGitHubData} = useGitHub();
+
+    useEffect (() => {
+        if (username ) {
+            fetchGitHubData(username);
+        }
+    }, [username]);
+
     return (
         <div className="profilepage">
-            <h2>Profile Overview - {username} </h2>
-            <p>GitHub profile data will show here</p>
+            {isLoading && <div>Loading...</div>}
+            {error && <div>{error}</div>}
         </div>
     );
 }
