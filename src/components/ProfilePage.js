@@ -13,6 +13,7 @@ const ProfilePage = () => {
         if (username ) {
             fetchGitHubData(username);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
 
     if (isLoading) {
