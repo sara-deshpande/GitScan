@@ -2,6 +2,7 @@ import './ProfilePage.css';
 import {useParams} from "react-router-dom";
 import {useEffect} from 'react';
 import useGitHub from '../hooks/useGitHub';
+import RepoLists from './RepoLists';
 
 const ProfilePage = () => {
 
@@ -47,9 +48,34 @@ const ProfilePage = () => {
                     <p className="profile-username">@{profileData.login}</p>
                     {profileData.bio && <p className="profile-bio">{profileData.bio}</p>}
                     {profileData.location && <p className="profile-location">📍 {profileData.location}</p>}
-                    
                 </div>
             </div>
+
+            <div className="profile-stats">
+                <div className="stat-card">
+                <span className="stat-number">{profileData.public_repos}</span>
+                <span className="stat-label">Repositories</span>
+                </div>
+                <div className="stat-card">
+                <span className="stat-number">{profileData.followers}</span>
+                <span className="stat-label">Followers</span>
+                </div>
+                <div className="stat-card">
+                <span className="stat-number">{profileData.following}</span>
+                <span className="stat-label">Following</span>
+                </div>
+                <div className="stat-card">
+                <span className="stat-number">
+                        {new Date().getFullYear() - new Date(profileData.created_at).getFullYear()}yr
+                    </span>
+                    <span className="stat-label">Account Age</span>
+                </div>
+            </div>
+
+            {repos.length > 0 && (
+                <RepoLists repos={repos} title="Public Repositories" />
+            )}
+
         </div>
     );
 }
