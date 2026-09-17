@@ -1,7 +1,5 @@
 import './Home.css';
 import { useState, useEffect } from 'react';
-import RepoLists from './RepoLists';
-import useGitHub from '../hooks/useGitHub';
 import {useNavigate} from "react-router-dom";
 
 const Home = () => {
@@ -10,8 +8,7 @@ const Home = () => {
 
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
-    const [formError, setFormError] = useState('');
-    const {profileData, repos, isLoading, error, fetchGitHubData} = useGitHub();         
+    const [formError, setFormError] = useState('');  
 
     const handleClick = () => {
         if (!username) {
@@ -24,7 +21,6 @@ const Home = () => {
         }
 
         setFormError('');
-        fetchGitHubData(username);
         navigate(`/profile/${username}`);
     }
 
@@ -67,27 +63,8 @@ const Home = () => {
 
                 </select>
                 <button onClick={handleClick}>Scan Profile</button>
-                {error && <p className="error-message">{error}</p>}
                 {formError && <p className="error-message">{formError}</p>}
             </div>
-
-            {isLoading && <div className="loading">
-                <p>Scanning Profile....</p>
-            </div> }
-
-            {!isLoading && profileData && (
-                <div className="profile-preview">
-                    <img src={profileData.avatar_url} alt="avatar" width="60" />
-                    <h3>{profileData.name}</h3>
-                    <p>@{profileData.login}</p>
-                    <p>Public repos: {profileData.public_repos}</p>
-                    <p>Followers: {profileData.followers}</p>
-                </div>
-            )}
-
-            {!isLoading && repos.length > 0 && (
-                <RepoLists repos={repos} title="Public Repositories" />
-            )}
         </div>
     );
 }
