@@ -21,7 +21,7 @@ const Home = () => {
         }
 
         setFormError('');
-        navigate(`/profile/${username}`);
+        navigate(`/profile/${username}?role=${encodeURIComponent(role)}`);
     }
 
     useEffect(() => {
