@@ -82,3 +82,22 @@
     color: #c0392b;
     font-size: 15px;
 }
+
+.analyze-btn {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 14px;
+    background: #1a3a5c;
+    color: #e8f1fb;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.analyze-btn:hover {
+    background: #14304d;
+}

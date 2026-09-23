@@ -1,5 +1,5 @@
 import './ProfilePage.css';
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
 import {useEffect} from 'react';
 import useGitHub from '../hooks/useGitHub';
 import RepoLists from './RepoLists';
@@ -7,6 +7,8 @@ import RepoLists from './RepoLists';
 const ProfilePage = () => {
 
     const { username }= useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
     const {profileData, repos, isLoading, error, fetchGitHubData} = useGitHub();
 
     useEffect (() => {
@@ -34,6 +36,10 @@ const ProfilePage = () => {
 
     if(!profileData){
         return null;
+    }
+
+    const handleAnalyze = () => {
+        navigate(`/results/${username}${location.search}`);
     }
 
     return (
@@ -76,6 +82,10 @@ const ProfilePage = () => {
             {repos.length > 0 && (
                 <RepoLists repos={repos} title="Public Repositories" />
             )}
+
+            <button className="analyze-btn" onClick = {handleAnalyze}>
+                View AI Analysis
+            </button>
 
         </div>
     );
