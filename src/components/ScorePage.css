@@ -1,0 +1,148 @@
+.score-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.score-header {
+    margin-bottom: 1.5rem;
+}
+
+.score-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 4px;
+}
+
+.score-header h2 span {
+    color: #4a6fa5;
+}
+
+.score-header p {
+    font-size: 14px;
+    color: #4a6fa5;
+    margin: 0;
+}
+
+.overall-score {
+    background: #1a3a5c;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #e8f1fb;
+}
+
+.overall-number {
+    font-size: 64px;
+    font-weight: 700;
+    color: #7eb8f7;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.overall-number span {
+    font-size: 24px;
+    color: #b8d4f0;
+}
+
+.overall-score p {
+    font-size: 14px;
+    color: #b8d4f0;
+    margin: 0;
+}
+
+.score-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.score-card {
+    background: #ffffff;
+    border: 1px solid #c5d8ef;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.score-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.score-card-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a3a5c;
+}
+
+.score-badge {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+}
+
+.score-badge.high {
+    background: #eaf3de;
+    color: #3b6d11;
+}
+
+.score-badge.medium {
+    background: #faeeda;
+    color: #854f0b;
+}
+
+.score-badge.low {
+    background: #fcebeb;
+    color: #a32d2d;
+}
+
+.score-bar-bg {
+    height: 6px;
+    background: #eef2f7;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.score-bar-fill {
+    height: 6px;
+    background: #4a6fa5;
+    border-radius: 99px;
+    transition: width 0.6s ease;
+}
+
+.score-feedback {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.score-feedback li {
+    font-size: 13px;
+    color: #4a6fa5;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.score-feedback li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #7eb8f7;
+}
+
+.score-error {
+    text-align: center;
+    padding: 3rem;
+    color: #c0392b;
+    font-size: 15px;
+}
