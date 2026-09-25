@@ -146,3 +146,21 @@
     color: #c0392b;
     font-size: 15px;
 }
+
+.action-plan-btn {
+    display: block;
+    width: 100%;
+    margin: 1.5rem auto 0;
+    padding: 14px;
+    background: #1a3a5c;
+    color: #e8f1fb;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.action-plan-btn:hover {
+    background: #14304d;
+}

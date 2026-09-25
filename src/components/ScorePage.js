@@ -1,5 +1,5 @@
 import './ScorePage.css';
-import {useParams, useLocation} from 'react-router-dom';
+import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
 
@@ -7,6 +7,7 @@ const ScorePage = () => {
 
     const {username} = useParams();
     const location = useLocation();
+    const navigate = useNavigate();
     const role = new URLSearchParams(location.search).get('role');
 
     const {profileData, repos, isLoading: githubLoading, error: githubError , fetchGitHubData} = useGitHub();
@@ -129,6 +130,7 @@ const ScorePage = () => {
             const text = data.choices[0].message.content;
             const parsed = JSON.parse(text);
             setScores(parsed);
+            localStorage.setItem(`gitscan-${username}`, JSON.stringify(parsed));
             setAiLoading(false);
 
         } catch (err) {
@@ -202,17 +204,14 @@ const ScorePage = () => {
                 ))}
             </div>
 
-            {scores.actionItems && scores.actionItems.length > 0 && (
-                <div className="action-preview">
-                    <h3>Your Action Plan</h3>
-                    <ul>
-                        {scores.actionItems.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            <button 
+                className = "action-plan-btn"
+                onClick ={() => navigate(`/action-plan/${username}${location.search}`)}
+                >
+                    View Action Plan 
+                </button>
         </div>
+
     );
 
 }
