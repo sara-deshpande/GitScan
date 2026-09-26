@@ -24,7 +24,11 @@ const ScorePage = () => {
     }, [username]);
 
     useEffect(() => {
-        if (profileData && repos.length > 0 && role){
+        if (profileData && role){
+            if (repos.length === 0 && !profileData.bio) {
+                setAiError('This GitHub account has no public repositories or bio. There is not enough data to generate an analysis.');
+                return;
+            }
             analyzeProfile();
         }
          // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,9 +68,12 @@ const ScorePage = () => {
         - Account age: ${new Date().getFullYear() - new Date(profileData.created_at).getFullYear()} years
         - Languages used: ${languages.join(', ')}
 
-        Repository Analysis (ALL ${repos.length} repos):
-        ${repoDetails.map(r => `- ${r.name}: ${r.description} | Language: ${r.language} | Stars: ${r.stars}`).join('\n')}
-
+       Repository Analysis (ALL ${repos.length} repos):
+        ${repos.length === 0 
+        ? 'NO REPOSITORIES — this account has no public repos at all' 
+        : repoDetails.map(r => `- ${r.name}: ${r.description} | Language: ${r.language} | Stars: ${r.stars}`).join('\n')
+        }
+        
         Documentation gaps:
         - Repos WITHOUT descriptions: ${reposWithoutDescription || 'None — great job!'}
         - Repos with descriptions: ${reposWithDescription} out of ${repos.length}
@@ -165,7 +172,11 @@ const ScorePage = () => {
     }
 
     if (!scores) {
-        return null;
+        return ( 
+            <div className="score-error">
+                <p>Could not generate analysis. This profile may have no public activity.</p>
+            </div>
+        );
     }
 
     return (  
