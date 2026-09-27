@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+# GitScan
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A GitHub profile analyser that tells you what recruiters actually see.
 
-## Available Scripts
+GitScan takes any GitHub username, pulls their public profile and repos via the GitHub API, and runs them through an AI analysis tailored to a specific job role. You get a score, honest feedback on what is holding you back, and a concrete action plan.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Preview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Home page](screenshots/screenshot-home.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+--
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Profile Overview** — fetches real GitHub data including bio, repos, languages, followers and account age
+- **AI-Powered Scoring** — sends profile data to GPT-3.5 and gets back a structured score across four categories: Documentation Quality, Project Variety, Commit Consistency, and Role Relevance
+- **Role-Targeted Analysis** — the analysis changes based on the role you select (Frontend, Backend, ML, DevOps, and more)
+- **Action Plan** — generates a personalised checklist of things to fix, specific to that profile
+- **Clean UI** — built with a custom design system using Playfair Display and Poppins, no component library
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- React (with React Router v7)
+- GitHub REST API (unauthenticated)
+- OpenAI API (GPT-3.5 Turbo)
+- Plain CSS (no Tailwind, no UI library)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerequisites
+- Node.js installed
+- An OpenAI API key
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+git clone https://github.com/sara-deshpande/GitScan
+cd GitScan
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create a `.env` file in the root:
 
-## Learn More
+```
+REACT_APP_OPENAI_API_KEY=your_key_here
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Then run it:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run start
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## How It Works
 
-### Analyzing the Bundle Size
+1. You enter a GitHub username and pick a target role
+2. GitScan fetches your profile and all public repos from the GitHub API
+3. That data gets formatted into a prompt and sent to GPT-3.5
+4. The AI returns a JSON object with scores, feedback, and action items
+5. Results are displayed across the Score page and Action Plan page
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+src/
+  components/
+    Home.js / Home.css
+    ProfilePage.js / ProfilePage.css
+    ScorePage.js / ScorePage.css
+    ActionPage.js / ActionPage.css
+    Navbar.js / Navbar.css
+  hooks/
+    useGitHub.js
+```
 
-### Advanced Configuration
+`useGitHub.js` is a custom hook that handles all GitHub API calls and manages loading and error state, so no component has to deal with fetch logic directly.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## Known Limitations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- GitHub API is unauthenticated, so rate limits apply (60 requests per hour per IP)
+- Only analyses public repositories
+- GPT-3.5 responses can occasionally vary in structure, though the prompt is designed to enforce consistent JSON output
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Built By
+
+Sara Deshpande — CS graduate learning React by building Full Stack AI Integrated Web Apps.
