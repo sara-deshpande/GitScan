@@ -43,7 +43,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="profilepage">
+        <div className="profile-page">
             <div className="profile-header">
             <img
                     src={profileData.avatar_url}
