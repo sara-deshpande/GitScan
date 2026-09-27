@@ -10,7 +10,7 @@ GitScan takes any GitHub username, pulls their public profile and repos via the 
 
 ![Home page](screenshots/screenshot-home.png)
 
---
+---
 
 ## Features
 
