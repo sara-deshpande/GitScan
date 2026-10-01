@@ -120,7 +120,7 @@ const ScorePage = () => {
         }`;
 
         try {
-            const response = await fetch('http://localhost:5001/api/analyze', {
+            const response = await fetch('https://gitscan-production-7918.up.railway.app/api/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt })
