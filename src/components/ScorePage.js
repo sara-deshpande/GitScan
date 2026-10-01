@@ -120,17 +120,10 @@ const ScorePage = () => {
         }`;
 
         try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            const response = await fetch('http://localhost:5001/api/analyze', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [{ role: 'user', content: prompt }],
-                    max_tokens: 1500
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
             });
 
             const data = await response.json();
