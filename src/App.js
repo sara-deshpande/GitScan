@@ -5,6 +5,7 @@ import ProfilePage from './components/ProfilePage';
 import ScorePage from './components/ScorePage';
 import ActionPage from './components/ActionPage';
 import NotFound from './components/NotFound';
+import {Analytics} from '@vercel/analytics/react';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      <Analytics/>
     </BrowserRouter>
   );
 }
