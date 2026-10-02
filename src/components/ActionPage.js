@@ -108,13 +108,20 @@ const ActionPage = () => {
                 </div>
             )}
 
-            <button 
-                className="back-btn"
-                onClick={() => navigate(`/results/${username}${location.search}`)}
-            >
-                ← Back to Analysis
-            </button>
-
+            <div className="action-nav">
+                <button 
+                    className="back-btn"
+                    onClick={() => navigate(`/results/${username}${location.search}`)}
+                >
+                    Back to Analysis
+                </button>
+                <button 
+                    className="back-btn"
+                    onClick={() => navigate('/')}
+                >
+                    Scan another profile
+                </button>
+            </div>
         </div>
      );
 }

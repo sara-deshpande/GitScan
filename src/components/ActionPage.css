@@ -190,10 +190,25 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    margin-bottom: 2rem;
 }
 
 .back-btn:hover {
     background: #f4f8fd;
     border-color: #4a6fa5;
+}
+
+.action-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+    .action-nav {
+        flex-direction: column;
+    }
+
+    .action-nav .back-btn {
+        width: 100%;
+    }
 }
