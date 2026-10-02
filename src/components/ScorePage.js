@@ -39,7 +39,6 @@ const ScorePage = () => {
     },[profileData, repos]);
 
     const analyzeProfile = async () => {
-        console.log('API Key:', process.env.REACT_APP_OPENAI_API_KEY);
         setAiLoading(true);
         setAiError('');
 

@@ -34,12 +34,6 @@ const Home = () => {
 
     return (
         <div>
-            <div className="ticker">
-                <span>
-                    &nbsp;&nbsp;&nbsp;● AI ANALYSIS &nbsp;&nbsp;&nbsp;● RECRUITER PERSPECTIVE &nbsp;&nbsp;&nbsp;● GITHUB PROFILE SCORING &nbsp;&nbsp;&nbsp;● ACTION PLAN &nbsp;&nbsp;&nbsp;● AI ANALYSIS &nbsp;&nbsp;&nbsp;● RECRUITER PERSPECTIVE &nbsp;&nbsp;&nbsp;
-                </span>
-            </div>
-    
             <div className="home">
                 <div className="home-left">
                     <h2>Know what <br /> recruiters <br /> <em>actually</em> see.</h2>
@@ -78,29 +72,30 @@ const Home = () => {
                 </div>
             </div>
     
-            <div className="what-you-get">
-                <div className="divider-line"></div>
-                <div className="divider-text">What you get</div>
-                <div className="divider-line"></div>
-            </div>
-    
-            <div className="features-row">
-                <div className="feat-card navy">
-                    <div className="feat-num">01</div>
-                    <div className="feat-title">Your Score</div>
-                    <div className="feat-desc">A real recruiter-perspective score tailored to your dream role</div>
+            <section className="steps">
+                <div className="steps-header">
+                    <h3>What you get</h3>
+                    <p>Pick the role you want. GitScan reads your public profile the way a recruiter skims it.</p>
                 </div>
-                <div className="feat-card blue">
-                    <div className="feat-num">02</div>
-                    <div className="feat-title">Honest Feedback</div>
-                    <div className="feat-desc">Specific, no-fluff feedback on exactly what's holding you back</div>
+
+                <div className="step-row row 1">
+                    <span className="step-num">[01]</span>
+                    <h4>Your score</h4>
+                    <p>A score out of 10 for the role you picked, broken into four categories.</p>
                 </div>
-                <div className="feat-card white">
-                    <div className="feat-num">03</div>
-                    <div className="feat-title">Your Action Plan</div>
-                    <div className="feat-desc">A personalised checklist to level up your profile</div>
+
+                <div className="step-row row-2">
+                    <span className="step-num">[02]</span>
+                    <h4>What's holding you back</h4>
+                    <p>Specific feedback on your repos, descriptions and activity.</p>
                 </div>
-            </div>
+
+                <div className="step-row row-3">
+                    <span className="step-num">[03]</span>
+                    <h4>What to fix first</h4>
+                    <p>A checklist you can tick off as you improve your profile.</p>
+                </div>
+            </section>
         </div>
     );
 }
