@@ -37,7 +37,7 @@ const Home = () => {
             <div className="home">
                 <div className="home-left">
                     <h2>Know what <br /> recruiters <br /> <em>actually</em> see.</h2>
-                    <p>GitScan gives you a tailored analysis of your GitHub Profile. Scored, Critiqued, and Optimised for the role you want.</p>
+                    <p>Enter your GitHub username and the role you want. GitScan scores your profile, shows what's weak and tells you what to fix first.</p>
                 </div>
     
                 <div className="home-card">
@@ -68,7 +68,7 @@ const Home = () => {
                         <option>AI Engineer</option>
                     </select>
                     {formError && <p className="error-message">{formError}</p>}
-                    <button onClick={handleClick}>Scan my profile →</button>
+                    <button onClick={handleClick}>Scan my profile </button>
                 </div>
             </div>
     

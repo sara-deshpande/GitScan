@@ -58,7 +58,7 @@ const ProfilePage = () => {
                 <h2>{profileData.name || profileData.login}</h2>
                     <p className="profile-username">@{profileData.login}</p>
                     {profileData.bio && <p className="profile-bio">{profileData.bio}</p>}
-                    {profileData.location && <p className="profile-location">📍 {profileData.location}</p>}
+                    {profileData.location && <p className="profile-location"> {profileData.location}</p>}
                 </div>
             </div>
 
