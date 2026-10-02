@@ -31,7 +31,7 @@
 
 .home-card {
   background: #1a3a5c;
-  border-radius: 28px;
+  border-radius: 20px;
   padding: 2.75rem;
 }
 
@@ -50,7 +50,7 @@
   padding: 12px 16px;
   background: #F5F0E8;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 14px;
   color: #1a3a5c;
   margin-bottom: 1.4rem;
@@ -64,7 +64,7 @@
   padding: 12px 40px 12px 16px;
   background: #F5F0E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a3a5c' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 15px;
   color: #1a3a5c;
   margin-bottom: 1.2rem;
@@ -83,12 +83,12 @@
 
 .home-card button {
   width: 100%;
-  padding: 18px;
+  padding: 12px;
   background: #378ADD;
   color: #fff;
   border: none;
-  border-radius: 16px;
-  font-size: 16px;
+  border-radius: 14px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
@@ -102,7 +102,7 @@
   color: #c0392b;
   background: #fdecea;
   border: 1px solid #f5c6c2;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px 12px;
   font-size: 12px;
   margin-bottom: 10px;
@@ -113,7 +113,7 @@
   margin: 4.5rem 6rem 3rem 8rem;
   padding: 2rem 2.5rem 1rem;
   background: #0D1E3B;
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .steps-header {
@@ -170,6 +170,26 @@
 }
 
 @media (max-width: 768px) {
+
+  .home {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.25rem 1rem;
+    gap: 2rem;
+  }
+
+  .home h2 {
+    font-size: 46px;
+  }
+
+  .home p {
+    max-width: none;
+  }
+
+  .home-card {
+    order: -1;
+    padding: 1.75rem;
+  }
+
   .steps {
     margin: 2.5rem 1rem 2rem;
     padding: 1.75rem 1.25rem 0.5rem;
