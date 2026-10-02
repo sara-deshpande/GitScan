@@ -30,6 +30,10 @@ const ActionPage = () => {
         setLoaded(true);
     }, [username]);
 
+    useEffect(() => {
+        document.title = `GitScan | @${username} action plan`;
+    }, [username]);
+
     const handleClick =(index) => {
         const updated = {
             ...checkedItems,

@@ -24,6 +24,10 @@ const ScorePage = () => {
     }, [username]);
 
     useEffect(() => {
+        document.title = `GitScan | @${username} score`;
+    }, [username]);
+
+    useEffect(() => {
         if (profileData && role){
             if (repos.length === 0 && !profileData.bio) {
                 setAiError('This GitHub account has no public repositories or bio. There is not enough data to generate an analysis.');
@@ -179,7 +183,7 @@ const ScorePage = () => {
                 <p>Analyzed for: <strong>{role}</strong> roles</p>
             </div>
 
-            <div className="overall-scores">
+            <div className="overall-score">
                 <div className="overall-number">{scores.overall} <span>/10</span></div>
                 <p>Overall Recruiter Score</p>
             </div>
@@ -189,15 +193,15 @@ const ScorePage = () => {
                     <div className="score-card" key={index}>
                         <div className="score-card-header">
                             <h3>{category.name}</h3>
-                            <span className={`score-badge ${category.score >= 7 ? 'high' : category.score >= 5 ? 'medium' : 'low' }`}>
-                                {category.score}/10
+                            <span className="score-value">
+                                {category.score}<span>/10</span>
                             </span>
                         </div>
                         <div className="score-bar-bg">
                         <div
-                                className="score-bar-fill"
-                                style={{ width: `${category.score * 10}%` }}
-                            ></div>
+                            className={`score-bar-fill ${category.score >= 7 ? 'high' : category.score >= 5 ? 'medium' : 'low'}`}
+                            style={{ width: `${category.score * 10}%` }}
+                        ></div>
                         </div>
                         <ul className="score-feedback">
                             {category.feedback.map((point, i) => (

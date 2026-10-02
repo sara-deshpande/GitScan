@@ -18,6 +18,10 @@ const ProfilePage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
 
+    useEffect(() => {
+        document.title = `GitScan | @${username} profile`;
+    }, [username]);
+
     if (isLoading) {
         return(
             <div className="loading">
@@ -28,7 +32,7 @@ const ProfilePage = () => {
 
     if (error){
         return(
-            <div className="error">
+            <div className="profile-error">
                 <p>{error}</p>
             </div>
         );

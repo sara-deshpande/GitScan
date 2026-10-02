@@ -25,7 +25,7 @@ const Home = () => {
     }
 
     useEffect(() => {
-        document.title = username ? `GitScan — ${username}` : 'GitScan';
+        document.title = username ? `GitScan | ${username}` : 'GitScan';
 
         return () => {
             document.title = 'GitScan';
