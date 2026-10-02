@@ -102,8 +102,7 @@ const ActionPage = () => {
 
             {completedCount === totalCount && totalCount > 0 && (
                 <div className="action-complete">
-                    <h3>🎉 All done!</h3>
-                    <p>You've completed all your action items. Run a new analysis to see if your score improved.</p>
+                    <h3> All done </h3>
                     <button onClick={() => navigate('/')}>Analyze again</button>
                 </div>
             )}
