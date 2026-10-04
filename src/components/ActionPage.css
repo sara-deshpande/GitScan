@@ -121,7 +121,7 @@
 
 .action-complete {
     background: #0D1E3B;
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 1.75rem;
     text-align: center;
     margin-bottom: 1.5rem;
@@ -133,6 +133,12 @@
     font-weight: 700;
     color: #F5F0E8;
     margin-bottom: 0;
+}
+
+.action-complete p {
+    font-size: 14px;
+    color: #F5F0E8;
+    margin: 0;
 }
 
 

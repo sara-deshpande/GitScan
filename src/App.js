@@ -6,6 +6,7 @@ import ScorePage from './components/ScorePage';
 import ActionPage from './components/ActionPage';
 import NotFound from './components/NotFound';
 import {Analytics} from '@vercel/analytics/react';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </div>
+        <Footer />
       </div>
       <Analytics/>
     </BrowserRouter>
