@@ -175,21 +175,35 @@ const ScorePage = () => {
         );
     }
 
-    return (  
+    const verdict =
+    scores.overall >= 9 ? 'Standout profile'
+    : scores.overall >= 7 ? 'Strong profile'
+    : scores.overall >= 5 ? 'Getting there'
+    : 'Needs work';
+
+    const actionCount = scores.actionItems ? scores.actionItems.length : 0;
+
+    return (
         <div className="score-page">
-            <div className="score-header">
-                <h2>AI Analysis for <span>@{username}</span></h2>
-                <p>Analyzed for: <strong>{role}</strong> roles</p>
-            </div>
 
-            <div className="overall-score">
-                <div className="overall-number">{scores.overall} <span>/10</span></div>
-                <p>Overall Recruiter Score</p>
-            </div>
+            <section className="score-hero">
+                <div className="score-hero-text">
+                    <span className="score-role">Scanned for {role}</span>
+                    <h2>AI analysis for <span className="score-username">@{username}</span></h2>
+                    <p>How a recruiter hiring for {role} roles would read your GitHub, split into four parts.</p>
+                </div>
+                <div className="score-overall">
+                    <div className="score-overall-number">
+                        {scores.overall}<span>/10</span>
+                    </div>
+                    <span className="score-verdict">{verdict}</span>
+                </div>
+            </section>
 
-            <div className="score-categories">
+            <div className="score-grid">
                 {scores.categories.map((category, index) => (
                     <div className="score-card" key={index}>
+                        <span className="score-num">[{String(index + 1).padStart(2, '0')}]</span>
                         <div className="score-card-header">
                             <h3>{category.name}</h3>
                             <span className="score-value">
@@ -197,10 +211,10 @@ const ScorePage = () => {
                             </span>
                         </div>
                         <div className="score-bar-bg">
-                        <div
-                            className={`score-bar-fill ${category.score >= 7 ? 'high' : category.score >= 5 ? 'medium' : 'low'}`}
-                            style={{ width: `${category.score * 10}%` }}
-                        ></div>
+                            <div
+                                className="score-bar-fill"
+                                style={{ width: `${category.score * 10}%` }}
+                            ></div>
                         </div>
                         <ul className="score-feedback">
                             {category.feedback.map((point, i) => (
@@ -211,17 +225,23 @@ const ScorePage = () => {
                 ))}
             </div>
 
-            <button 
-                className = "action-plan-btn"
-                onClick ={() => navigate(`/action-plan/${username}${location.search}`)}
+            <section className="score-next">
+                <div>
+                    <h3>Your action plan</h3>
+                    <p>{actionCount} things to fix on your profile. Tick them off as you go.</p>
+                </div>
+                <button
+                    className="action-plan-btn"
+                    onClick={() => navigate(`/action-plan/${username}${location.search}`)}
                 >
-                    View Action Plan 
+                    View action plan
                 </button>
+            </section>
+
         </div>
-
     );
-
 }
+
 
  
 export default ScorePage;
