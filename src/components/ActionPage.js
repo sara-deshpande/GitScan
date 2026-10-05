@@ -48,11 +48,7 @@ const ActionPage = () => {
     const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
     if(!loaded) {
-        return (
-            <div className="loading">
-                <p>Loading your action plan...</p>
-            </div>
-        );
+        return null;
     }
 
     if(actionItems.length === 0) {
@@ -65,64 +61,65 @@ const ActionPage = () => {
         );
     }
 
-    return ( 
+    return (
         <div className="action-page">
-            <div className="action-header">
-                <h2>Action Plan for <span>@{username}</span></h2>
-                <p>Targeted for : <strong>{role}</strong></p>
-            </div>
 
-            <div className="progress-section">
-                <div className="progress-labels">
-                    <span>{completedCount} of {totalCount} completed</span>
+            <section className="action-hero">
+                <span className="action-role">Action plan for {role}</span>
+                <h2>What to fix on <span className="action-username">@{username}</span></h2>
+                <div className="action-progress-labels">
+                    <span>{completedCount} of {totalCount} done</span>
                     <span>{progressPercent}%</span>
                 </div>
                 <div className="progress-bar-bg">
-                    <div 
+                    <div
                         className="progress-bar-fill"
-                        style={{width : `${progressPercent}%`}}
-                        ></div>
+                        style={{ width: `${progressPercent}%` }}
+                    ></div>
                 </div>
-            </div>
+            </section>
 
             <div className="action-list">
                 {actionItems.map((item, index) => (
-                    <div 
+                    <div
                         className={`action-item ${checkedItems[index] ? 'completed' : ''}`}
                         key={index}
-                        onClick ={() => handleClick(index)}
-                        >
-                            <div className={`action-checkbox ${checkedItems[index] ? 'checked' : ''}`}>
+                        onClick={() => handleClick(index)}
+                    >
+                        <div className={`action-checkbox ${checkedItems[index] ? 'checked' : ''}`}>
                             {checkedItems[index] && <span>✓</span>}
                         </div>
-                        <p className="action-text">{item}</p>
+                        <div className="action-body">
+                            <span className="action-num">[{String(index + 1).padStart(2, '0')}]</span>
+                            <p className="action-text">{item}</p>
                         </div>
+                    </div>
                 ))}
             </div>
 
             {completedCount === totalCount && totalCount > 0 && (
                 <div className="action-complete">
-                    <h3> All done </h3>
-                    <button onClick={() => navigate('/')}>Analyze again</button>
+                    <h3>All done</h3>
                 </div>
             )}
 
             <div className="action-nav">
-                <button 
+                <button
                     className="back-btn"
                     onClick={() => navigate(`/results/${username}${location.search}`)}
                 >
-                    Back to Analysis
+                    ← Back to Analysis
                 </button>
-                <button 
+                <button
                     className="back-btn"
                     onClick={() => navigate('/')}
                 >
                     Scan another profile
                 </button>
             </div>
+
         </div>
-     );
+    );
 }
  
 export default ActionPage;
