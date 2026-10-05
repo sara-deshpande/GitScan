@@ -1,128 +1,165 @@
 .score-page {
-    max-width: 900px;
-    margin: 2rem auto;
+    max-width: 1000px;
+    margin: 2.5rem auto 0;
     padding: 0 1.5rem;
 }
 
-.score-header {
-    margin-bottom: 1rem;
-}
+/* ---------- Hero: title and overall score ---------- */
 
-.score-header h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a3a5c;
-    margin-bottom: 4px;
-}
-
-.score-header h2 span {
-    color: #4a6fa5;
-}
-
-.score-header p {
-    font-size: 14px;
-    color: #4a6fa5;
-    margin: 0;
-}
-
-.score-header h2 {
-    font-family: 'Playfair Display', serif;
-}
-
-.overall-score {
+.score-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
     background: #1a3a5c;
-    border-radius: 20px;
-    padding: 2rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #e8f1fb;
+    border-radius: 16px;
+    padding: 2.25rem 2.5rem;
 }
 
-.overall-number {
-    font-size: 64px;
+.score-hero-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.score-role {
+    display: inline-block;
+    font-size: 11px;
     font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: #7eb8f7;
-    line-height: 1;
     margin-bottom: 8px;
 }
 
-.overall-number span {
-    font-size: 24px;
-    color: #b8d4f0;
+.score-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 800;
+    color: #F5F0E8;
+    line-height: 1.15;
+    margin-bottom: 10px;
 }
 
-.overall-score p {
+.score-username {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.score-hero p {
     font-size: 14px;
-    color: #b8d4f0;
-    margin: 0;
+    color: #C8D9E6;
+    line-height: 1.6;
+    max-width: 440px;
 }
 
-.score-categories {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.score-overall {
+    flex-shrink: 0;
+    width: 190px;
+    padding: 1.5rem 1rem;
+    background: #F5F0E8;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.score-overall-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 800;
+    color: #0D1E3B;
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+}
+
+.score-overall-number span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #3D5A80;
+    margin-left: 4px;
+}
+
+.score-verdict {
+    display: block;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0D1E3B;
+}
+
+/* ---------- Category cards ---------- */
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 1.25rem;
 }
 
 .score-card {
-    background: #ffffff;
-    border: 1px solid #c5d8ef;
-    border-radius: 20px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    background: #378ADD;
+    border-radius: 16px;
+    padding: 1.5rem 1.6rem;
+}
+
+.score-num {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #F5F0E8;
+    margin-bottom: 0.75rem;
 }
 
 .score-card-header {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 1rem;
+    margin-bottom: 12px;
 }
 
 .score-card-header h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1a3a5c;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #F5F0E8;
+    line-height: 1.2;
 }
 
 .score-value {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 700;
-    color: #1a3a5c;
+    color: #F5F0E8;
+    white-space: nowrap;
+    font-variant-numeric: lining-nums;
 }
 
 .score-value span {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 500;
-    color: #4a6fa5;
+    color: #F5F0E8;
     margin-left: 2px;
 }
 
 .score-bar-bg {
     height: 6px;
-    background: #E8E1D4;
+    background: rgba(245, 240, 232, 0.35);
     border-radius: 99px;
     overflow: hidden;
-    margin-bottom: 12px;
+    margin-bottom: 1.1rem;
 }
 
 .score-bar-fill {
     height: 6px;
+    background: #F5F0E8;
     border-radius: 99px;
     transition: width 0.6s ease;
-}
-
-.score-bar-fill.high {
-    background: #1a3a5c;
-}
-
-.score-bar-fill.medium {
-    background: #4a6fa5;
-}
-
-.score-bar-fill.low {
-    background: #7eb8f7;
 }
 
 .score-feedback {
@@ -131,15 +168,59 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
 }
 
 .score-feedback li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #F5F0E8;
+    padding-top: 10px;
+    border-top: 1px solid rgba(245, 240, 232, 0.3);
+}
+
+/* ---------- Next step: action plan ---------- */
+
+.score-next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    padding: 1.75rem 2.5rem;
+    background: #F5F0E8;
+    border: 1.5px solid #0D1E3B;
+    border-radius: 16px;
+}
+
+.score-next h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0D1E3B;
+    margin-bottom: 4px;
+}
+
+.score-next p {
     font-size: 14px;
-    color: #1a3a5c;
-    padding-left: 0;
-    position: relative;
-    line-height: 1.5;
+    color: #3D5A80;
+}
+
+.action-plan-btn {
+    flex-shrink: 0;
+    padding: 16px 28px;
+    background: #0D1E3B;
+    color: #F5F0E8;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.action-plan-btn:hover {
+    background: #1a3a5c;
 }
 
 .score-error {
@@ -149,20 +230,40 @@
     font-size: 15px;
 }
 
-.action-plan-btn {
-    display: block;
-    width: 100%;
-    margin: 1.5rem auto 0;
-    padding: 14px;
-    background: #1a3a5c;
-    color: #e8f1fb;
-    border: none;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
+/* ---------- Mobile ---------- */
 
-.action-plan-btn:hover {
-    background: #14304d;
+@media (max-width: 700px) {
+    .score-page {
+        margin-top: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .score-hero {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.75rem 1.25rem;
+        gap: 1.5rem;
+    }
+
+    .score-hero h2 {
+        font-size: 30px;
+    }
+
+    .score-overall {
+        width: auto;
+    }
+
+    .score-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .score-next {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem 1.25rem;
+    }
+
+    .action-plan-btn {
+        width: 100%;
+    }
 }
