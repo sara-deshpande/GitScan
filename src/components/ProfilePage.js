@@ -27,8 +27,21 @@ const ProfilePage = () => {
 
     if (isLoading) {
         return(
-            <div className="loading">
-                <p>Loading profile....</p>
+            <div className="skeleton-page skeleton-pulse">
+                <div className="skeleton-hero">
+                    <div className="skeleton-circle"></div>
+                    <div className="skeleton-lines">
+                        <div className="skeleton-line short"></div>
+                        <div className="skeleton-line mid"></div>
+                        <div className="skeleton-line long"></div>
+                    </div>
+                </div>
+                <div className="skeleton-grid">
+                    <div className="skeleton-card"></div>
+                    <div className="skeleton-card"></div>
+                    <div className="skeleton-card"></div>
+                    <div className="skeleton-card"></div>
+                </div>
             </div>
         );
     }

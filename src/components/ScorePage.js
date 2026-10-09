@@ -145,8 +145,28 @@ const ScorePage = () => {
 
     if (githubLoading || aiLoading) {
         return (
-            <div className="loading">
-                <p>{githubLoading ? 'Loading GitHub data...' : 'Generating AI analysis...'}</p>
+            <div className="skeleton-page">
+                <div className="skeleton-pulse">
+                    <div className="skeleton-hero">
+                        <div className="skeleton-lines">
+                            <div className="skeleton-line short"></div>
+                            <div className="skeleton-line long"></div>
+                            <div className="skeleton-line mid"></div>
+                        </div>
+                        <div className="skeleton-square"></div>
+                    </div>
+                    <div className="skeleton-grid">
+                        <div className="skeleton-card bright"></div>
+                        <div className="skeleton-card bright"></div>
+                        <div className="skeleton-card bright"></div>
+                        <div className="skeleton-card bright"></div>
+                    </div>
+                </div>
+                <p className="skeleton-status">
+                    {githubLoading
+                        ? `Reading @${username}'s repos...`
+                        : 'Writing your analysis. This can take a few seconds.'}
+                </p>
             </div>
         );
     }
