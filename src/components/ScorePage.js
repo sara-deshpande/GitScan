@@ -29,6 +29,15 @@ const ScorePage = () => {
 
     useEffect(() => {
         if (profileData && role){
+            const saved = localStorage.getItem(`gitscan-${username}`);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.role === role) {
+                    setScores(parsed);
+                    return;
+                }
+            }
+    
             if (repos.length === 0 && !profileData.bio) {
                 setAiError('This GitHub account has no public repositories or bio. There is not enough data to generate an analysis.');
                 return;
@@ -132,8 +141,10 @@ const ScorePage = () => {
             const data = await response.json();
             const text = data.choices[0].message.content;
             const parsed = JSON.parse(text);
-            setScores(parsed);
-            localStorage.setItem(`gitscan-${username}`, JSON.stringify(parsed));
+            const result = { ...parsed, role };
+            setScores(result);
+            localStorage.setItem(`gitscan-${username}`, JSON.stringify(result));
+            localStorage.removeItem(`gitscan-checks-${username}`);
             setAiLoading(false);
 
         } catch (err) {

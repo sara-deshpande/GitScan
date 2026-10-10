@@ -43,6 +43,12 @@ const ActionPage = () => {
         localStorage.setItem(`gitscan-checks-${username}`,JSON.stringify(updated));
     };
 
+    const handleRerun = () => {
+        localStorage.removeItem(`gitscan-${username}`);
+        localStorage.removeItem(`gitscan-checks-${username}`);
+        navigate(`/results/${username}${location.search}`);
+    };
+
     const completedCount = Object.values(checkedItems).filter(Boolean).length;
     const totalCount = actionItems.length;
     const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
@@ -109,6 +115,12 @@ const ActionPage = () => {
                     onClick={() => navigate(`/results/${username}${location.search}`)}
                 >
                     ← Back to Analysis
+                </button>
+                <button
+                    className="back-btn"
+                    onClick={handleRerun}
+                >
+                    Run a fresh analysis
                 </button>
                 <button
                     className="back-btn"
