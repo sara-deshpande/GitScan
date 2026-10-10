@@ -3,6 +3,8 @@ import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
 
+const API_URL = process.env.REACT_APP_API_URL || 'https://gitscan-production-7918.up.railway.app';
+
 const ScorePage = () => {
 
     const {username} = useParams();
@@ -50,107 +52,32 @@ const ScorePage = () => {
     const analyzeProfile = async () => {
         setAiLoading(true);
         setAiError('');
-
-        const languages = [...new Set(repos.map(r => r.language).filter(Boolean))];
-
-        const repoDetails = repos.map(r => ({
-            name: r.name,
-            description: r.description || 'NO DESCRIPTION',
-            language: r.language || 'No language set',
-            stars: r.stargazers_count,
-            hasDescription: !!r.description
-        }));
-
-        const reposWithoutDescription = repoDetails
-            .filter(r => !r.hasDescription)
-            .map(r => r.name)
-            .join(', ');
-
-        const reposWithDescription = repoDetails.filter(r => r.hasDescription).length;
-
-        const prompt = `
-       You are a senior tech recruiter and career advisor reviewing a GitHub profile for someone targeting ${role} positions.
-
-        Profile Overview:
-        - Name: ${profileData.name || profileData.login}
-        - Bio: ${profileData.bio || 'NO BIO SET'}
-        - Location: ${profileData.location || 'NOT SET'}
-        - Public repos: ${profileData.public_repos}
-        - Followers: ${profileData.followers}
-        - Account age: ${new Date().getFullYear() - new Date(profileData.created_at).getFullYear()} years
-        - Languages used: ${languages.join(', ')}
-
-       Repository Analysis (ALL ${repos.length} repos):
-        ${repos.length === 0 
-        ? 'NO REPOSITORIES — this account has no public repos at all' 
-        : repoDetails.map(r => `- ${r.name}: ${r.description} | Language: ${r.language} | Stars: ${r.stars}`).join('\n')
-        }
-        
-        Documentation gaps:
-        - Repos WITHOUT descriptions: ${reposWithoutDescription || 'None — great job!'}
-        - Repos with descriptions: ${reposWithDescription} out of ${repos.length}
-
-        Your job is to:
-        1. Carefully read ALL the repo data above before scoring
-        2. Score this specific profile honestly — do not use default or placeholder scores
-        3. Identify specific things that are MISSING or need improvement based on what you actually see
-        4. Give actionable suggestions based on THIS person's actual profile
-
-        Be strict and honest. A profile with no bio, no descriptions, and irrelevant projects should score low. A strong profile with good documentation and relevant projects should score high. Every score must reflect the actual data above.
-
-        Respond ONLY with valid JSON in this exact format. Replace all descriptions in quotes with real observations about THIS specific profile. No placeholder text:
-        {
-        "overall": <calculate honestly based on all categories>,
-        "categories": [
-            {
-            "name": "Documentation Quality",
-            "score": <0-10 based on how many repos have descriptions and quality of bio>,
-            "feedback": ["<specific repo names that are missing descriptions>", "<specific action to improve documentation>"]
-            },
-            {
-            "name": "Project Variety",
-            "score": <0-10 based on language diversity and project types>,
-            "feedback": ["<observation about the actual languages and project types you see>", "<specific suggestion for what type of project to add>"]
-            },
-            {
-            "name": "Commit Consistency",
-            "score": <0-10 based on account age vs number of repos>,
-            "feedback": ["<observation about their activity level>", "<specific suggestion to improve consistency>"]
-            },
-            {
-            "name": "Role Relevance",
-            "score": <0-10 based on how well their projects match ${role} requirements>,
-            "feedback": ["<which of their repos are relevant to ${role} and which are not>", "<specific project type they should add for ${role}>"]
-            }
-        ],
-        "actionItems": [
-            "<specific action item based on what you actually found missing in this profile>",
-            "<another specific action item>",
-            "<another specific action item>",
-            "<another specific action item>"
-        ]
-        }`;
-
+    
         try {
-            const response = await fetch('https://gitscan-production-7918.up.railway.app/api/analyze', {
+            const response = await fetch(`${API_URL}/api/analyze`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt })
+                body: JSON.stringify({ username, role })
             });
-
+    
             const data = await response.json();
-            const text = data.choices[0].message.content;
-            const parsed = JSON.parse(text);
-            const result = { ...parsed, role };
+    
+            if (!response.ok) {
+                setAiError(data.error || 'Failed to generate analysis. Please try again.');
+                setAiLoading(false);
+                return;
+            }
+    
+            const result = { ...data, role };
             setScores(result);
             localStorage.setItem(`gitscan-${username}`, JSON.stringify(result));
             localStorage.removeItem(`gitscan-checks-${username}`);
             setAiLoading(false);
-
+    
         } catch (err) {
+            console.log(err);
             setAiError('Failed to generate analysis. Please try again.');
             setAiLoading(false);
-            console.log(err);
         }
     };
 
@@ -221,7 +148,7 @@ const ScorePage = () => {
                 <div className="score-hero-text">
                     <span className="score-role">Scanned for {role}</span>
                     <h2>AI analysis for <span className="score-username">@{username}</span></h2>
-                    <p>How a recruiter hiring for {role} roles would read your GitHub, split into four parts.</p>
+                    <p>{scores.summary || `How a recruiter hiring for ${role} roles would read your GitHub, split into four parts.`}</p>
                 </div>
                 <div className="score-overall">
                     <div className="score-overall-number">
