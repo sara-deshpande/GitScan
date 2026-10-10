@@ -6,7 +6,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+    'https://git-scan-lake.vercel.app',
+    'http://localhost:3000'
+];
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.post('/api/analyze', async (req,res)=> {
