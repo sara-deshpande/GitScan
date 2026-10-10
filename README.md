@@ -48,7 +48,7 @@ npm install
 Create a `.env` file in the root:
 
 ```
-REACT_APP_OPENAI_API_KEY=your_key_here
+OPENAI_API_KEY=your_key_here
 ```
 
 Then run it:

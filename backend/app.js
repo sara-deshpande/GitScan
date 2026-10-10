@@ -39,8 +39,15 @@ app.use('/api/', rateLimit({
     message: { error: 'Too many scans from this network. Please wait 15 minutes and try again.' }
 }));
 
-app.post('/api/analyze', async (req,res)=> {
-    const {prompt} = req.body;
+app.post('/api/analyze', async (req, res) => {
+    const { username, role } = req.body;
+
+    if (!username || !/^[a-zA-Z0-9-]{1,39}$/.test(username)) {
+        return res.status(400).json({ error: 'Please enter a valid GitHub username.' });
+    }
+    if (!ROLES.includes(role)) {
+        return res.status(400).json({ error: 'Please select a valid role.' });
+    }
 
     try {
         const profile = await getProfileData(username);
@@ -86,6 +93,5 @@ app.post('/api/analyze', async (req,res)=> {
         res.status(500).json({ error: 'Something went wrong. Please try again.' });
     }
 });
-
 
 export default app;
