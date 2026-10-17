@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://gitscan-production-7918.up.railway.app';
+const ANALYSIS_VERSION = 2;
 
 const ScorePage = () => {
 
@@ -34,7 +35,7 @@ const ScorePage = () => {
             const saved = localStorage.getItem(`gitscan-${username}`);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                if (parsed.role === role) {
+                if (parsed.role === role && parsed.version === ANALYSIS_VERSION) {
                     setScores(parsed);
                     return;
                 }
@@ -68,7 +69,7 @@ const ScorePage = () => {
                 return;
             }
     
-            const result = { ...data, role };
+            const result = { ...data, role, version: ANALYSIS_VERSION };
             setScores(result);
             localStorage.setItem(`gitscan-${username}`, JSON.stringify(result));
             localStorage.removeItem(`gitscan-checks-${username}`);
@@ -148,7 +149,7 @@ const ScorePage = () => {
                 <div className="score-hero-text">
                     <span className="score-role">Scanned for {role}</span>
                     <h2>AI analysis for <span className="score-username">@{username}</span></h2>
-                    <p>{scores.summary || `How a recruiter hiring for ${role} roles would read your GitHub, split into four parts.`}</p>
+                    <p>How a recruiter hiring for {role} roles would read your GitHub, split into four parts.</p>
                 </div>
                 <div className="score-overall">
                     <div className="score-overall-number">
@@ -174,11 +175,17 @@ const ScorePage = () => {
                                 style={{ width: `${category.score * 10}%` }}
                             ></div>
                         </div>
-                        <ul className="score-feedback">
-                            {category.feedback.map((point, i) => (
-                                <li key={i}>{point}</li>
-                            ))}
-                        </ul>
+                        <p className="score-card-verdict">{category.verdict}</p>
+                        <dl className="score-points">
+                            <div className="score-point">
+                                <dt>Strength</dt>
+                                <dd>{category.strength}</dd>
+                            </div>
+                            <div className="score-point">
+                                <dt>Gap</dt>
+                                <dd>{category.gap}</dd>
+                            </div>
+                        </dl>
                     </div>
                 ))}
             </div>
