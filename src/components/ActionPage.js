@@ -97,7 +97,8 @@ const ActionPage = () => {
                         </div>
                         <div className="action-body">
                             <span className="action-num">[{String(index + 1).padStart(2, '0')}]</span>
-                            <p className="action-text">{item}</p>
+                            <p className="action-title">{typeof item === 'string' ? item : item.title}</p>
+                            {item.detail && <p className="action-detail">{item.detail}</p>}
                         </div>
                     </div>
                 ))}
