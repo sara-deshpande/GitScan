@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import { getProfileData } from './github.js';
 import { buildPrompt, formatAnalysis, getLevel } from './prompt.js';
+import {buildEvidence} from './evidence.js';
 
 dotenv.config();
 
@@ -88,7 +89,16 @@ app.post('/api/analyze', async (req, res) => {
         }
 
         const analysis = JSON.parse(data.choices[0].message.content);
-        res.json(formatAnalysis(analysis, level));
+        const result = formatAnalysis(analysis, level);
+        const evidence = buildEvidence(profile, result.relevantRepos);
+
+        result.categories = result.categories.map(category => ({
+            ...category,
+            evidence: evidence[category.name] || null
+        }));
+        result.relevantRepos = evidence['Role Relevance'].rows.map(row => row.name);
+
+        res.json(result);
 
     } catch (err) {
         console.error(err);

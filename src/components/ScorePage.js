@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://gitscan-production-7918.up.railway.app';
-const ANALYSIS_VERSION = 2;
+const ANALYSIS_VERSION = 3;
 
 const ScorePage = () => {
 
