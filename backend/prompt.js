@@ -20,7 +20,30 @@ const ROLE_GUIDES = {
     'AI Engineer': 'building applications on top of AI models: LLM APIs, prompt design, retrieval, agents and tool use, and evaluation, plus the engineering around them such as APIs, data handling and deployment.'
 };
 
-export const buildPrompt = (profile, role) => {
+export const getLevel = (profile) => {
+    const repos = profile.repos || [];
+    const realProjects = repos.filter(repo =>
+        !repo.isEmpty &&
+        (repo.description || (repo.readme?.hasReadme && repo.readme.lengthInCharacters >= 300))
+    ).length;
+    const totalStars = repos.reduce((sum, repo) => sum + (repo.stars || 0), 0);
+    const contributions = profile.contributions?.totalContributionsLastYear;
+    const hasContributionData = typeof contributions === 'number';
+
+    if (realProjects < 3 || (hasContributionData && contributions < 50)) {
+        return 'beginner';
+    }
+
+    const yearsActive = profile.accountAgeYears || 0;
+    const steadyActivity = !hasContributionData || contributions >= 300;
+    if (yearsActive >= 3 && steadyActivity && (totalStars >= 100 || realProjects >= 8)) {
+        return 'advanced';
+    }
+
+    return 'intermediate';
+};
+
+export const buildPrompt = (profile, role, level) => {
     const system = `You are a senior technical recruiter with over ten years of hiring for software roles, working alongside a staff engineer who reviews code portfolios. You review GitHub profiles the way a real recruiter does: quickly, fairly, and with specific, practical advice.
 
 Rules you always follow:
@@ -41,10 +64,7 @@ ${ROLE_GUIDES[role]}
 
 EXPERIENCE LEVEL
 
-First decide the person's level from the data, using these guidelines:
-- "beginner": fewer than 3 original projects with real content, or fewer than 50 contributions in the last year.
-- "intermediate": 3 or more original projects with real content and regular recent activity, but under about 3 years of sustained work or no widely used projects.
-- "advanced": years of sustained activity and substantial or widely used projects.
+This person's level is "${level}". It was calculated in code from their projects, contributions and account age, so use it exactly as given.
 
 Match all of your advice to that level. A beginner needs clear, simple first steps. An advanced developer needs higher-level upgrades, such as a stronger flagship project write-up, architecture or performance notes, open source involvement or a clearer pinned repo strategy. Do not tell someone to add a README if they already have good ones.
 
@@ -118,9 +138,8 @@ Bad action item, never write like this:
 
 OUTPUT FORMAT
 
-Return only this JSON. Do not include an overall score, it is calculated separately.
+Return only this JSON. Do not include an overall score or a level, they are calculated separately.
 {
-  "level": "beginner" | "intermediate" | "advanced",
   "categories": [
     { "name": "Documentation Quality", "score": number, "verdict": "string", "strength": "string", "gap": "string" },
     { "name": "Project Variety", "score": number, "verdict": "string", "strength": "string", "gap": "string" },
@@ -142,7 +161,7 @@ ${JSON.stringify(profile)}`;
 
 const removeDashes = (text) => String(text || '').replace(/\s*[\u2014\u2013]\s*/g, ', ');
 
-export const formatAnalysis = (analysis) => {
+export const formatAnalysis = (analysis, level) => {
     const categories = (analysis.categories || []).map(category => ({
         name: category.name,
         score: Math.min(10, Math.max(1, Math.round(Number(category.score) || 1))),
@@ -151,7 +170,7 @@ export const formatAnalysis = (analysis) => {
         gap: removeDashes(category.gap)
     }));
 
-    if (analysis.level === 'advanced') {
+    if (level === 'advanced') {
         categories.forEach(category => {
             if (category.name === 'Role Relevance' && category.score < 5) {
                 category.score = 5;
@@ -175,7 +194,7 @@ export const formatAnalysis = (analysis) => {
     );
 
     return {
-        level: analysis.level,
+        level,
         overall,
         categories,
         relevantRepos: Array.isArray(analysis.relevantRepos) ? analysis.relevantRepos : [],

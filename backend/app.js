@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import { getProfileData } from './github.js';
-import { buildPrompt, formatAnalysis } from './prompt.js';
+import { buildPrompt, formatAnalysis, getLevel } from './prompt.js';
 
 dotenv.config();
 
@@ -59,7 +59,8 @@ app.post('/api/analyze', async (req, res) => {
             return res.status(422).json({ error: 'This GitHub account has no public repositories or bio. There is not enough data to generate an analysis.' });
         }
 
-        const { system, user } = buildPrompt(profile, role);
+        const level = getLevel(profile);
+        const { system, user } = buildPrompt(profile, role, level);
 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -69,6 +70,7 @@ app.post('/api/analyze', async (req, res) => {
             },
             body: JSON.stringify({
                 model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+                temperature: 0.2;
                 messages: [
                     { role: 'system', content: system },
                     { role: 'user', content: user }
@@ -86,7 +88,7 @@ app.post('/api/analyze', async (req, res) => {
         }
 
         const analysis = JSON.parse(data.choices[0].message.content);
-        res.json(formatAnalysis(analysis));
+        res.json(formatAnalysis(analysis, level));
 
     } catch (err) {
         console.error(err);
