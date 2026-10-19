@@ -10,6 +10,11 @@
 
 .score-card-clickable {
     cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.score-card-clickable:hover {
+    background: #2a70c0;
 }
 
 .score-card-inner {

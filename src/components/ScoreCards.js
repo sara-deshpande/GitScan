@@ -174,13 +174,13 @@ const ScoreCards = ({ categories }) => {
                             role="dialog"
                             aria-modal="true"
                             aria-label={`${openCategory.name} evidence`}
-                            transition={{ duration: 0.5, ease: EASE }}
+                            transition={{ duration: 0.8, ease: EASE }}
                         >
                             <motion.div
                                 className="flipper"
                                 initial={{ rotateY: 0 }}
                                 animate={{ rotateY: flipped ? 180 : 0 }}
-                                transition={{ duration: 0.6, ease: EASE }}
+                                transition={{ duration: flipped ? 1.1 : 0.6, ease: EASE }}
                                 onAnimationComplete={handleFlipDone}
                             >
                                 <div className="card-face card-face-front score-card">
