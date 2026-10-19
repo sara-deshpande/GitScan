@@ -2,6 +2,7 @@ import './ScorePage.css';
 import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
+import ScoreCards from './ScoreCards';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://gitscan-production-7918.up.railway.app';
 const ANALYSIS_VERSION = 3;
@@ -159,36 +160,7 @@ const ScorePage = () => {
                 </div>
             </section>
 
-            <div className="score-grid">
-                {scores.categories.map((category, index) => (
-                    <div className="score-card" key={index}>
-                        <span className="score-num">[{String(index + 1).padStart(2, '0')}]</span>
-                        <div className="score-card-header">
-                            <h3>{category.name}</h3>
-                            <span className="score-value">
-                                {category.score}<span>/10</span>
-                            </span>
-                        </div>
-                        <div className="score-bar-bg">
-                            <div
-                                className="score-bar-fill"
-                                style={{ width: `${category.score * 10}%` }}
-                            ></div>
-                        </div>
-                        <p className="score-card-verdict">{category.verdict}</p>
-                        <dl className="score-points">
-                            <div className="score-point">
-                                <dt>Strength</dt>
-                                <dd>{category.strength}</dd>
-                            </div>
-                            <div className="score-point">
-                                <dt>Gap</dt>
-                                <dd>{category.gap}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                ))}
-            </div>
+            <ScoreCards categories={scores.categories} />
 
             <section className="score-next">
                 <div>

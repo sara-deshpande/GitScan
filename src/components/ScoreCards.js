@@ -148,7 +148,7 @@ const ScoreCards = ({ categories }) => {
                                 <motion.div layout="position" className="score-card-inner">
                                     <CardFront category={category} index={index} />
                                     <button type="button" className="score-card-open">
-                                        See the evidence <span aria-hidden="true">↻</span>
+                                        See the evidence <span aria-hidden="true"></span>
                                     </button>
                                 </motion.div>
                             </motion.div>
