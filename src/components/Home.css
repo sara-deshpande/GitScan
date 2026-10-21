@@ -221,7 +221,7 @@
 
 .home .examples-label {
   color: #7eb8f7;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -241,13 +241,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-  padding: 12px 18px;
+  gap: 2px;
+  padding: 8px 12px;
   background: transparent;
   border: 1px solid rgba(245, 240, 232, 0.45);
   border-radius: 10px;
   color: #F5F0E8;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
@@ -264,7 +264,7 @@
 }
 
 .example-role {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   opacity: 0.75;
 }
