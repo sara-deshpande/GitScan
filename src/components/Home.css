@@ -9,7 +9,7 @@
 
 .home h2 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(45px, 6.0vw, 65px);
+  font-size: clamp(48px, 6vw, 74px);
   font-weight: 900;
   color: #1a3a5c;
   line-height: 1.05;
