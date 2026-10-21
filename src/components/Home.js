@@ -2,6 +2,12 @@ import './Home.css';
 import { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 
+const EXAMPLES = [
+    { username: 'torvalds', role: 'Software Engineer' },
+    { username: 'gaearon', role: 'Frontend Engineer' },
+    { username: 'karpathy', role: 'AI Engineer' }
+];
+
 const Home = () => {
 
     const navigate = useNavigate();
@@ -23,6 +29,10 @@ const Home = () => {
         setFormError('');
         navigate(`/profile/${username}?role=${encodeURIComponent(role)}`);
     }
+
+    const handleExample = (example) => {
+        navigate(`/profile/${example.username}?role=${encodeURIComponent(example.role)}`);
+    };
 
     useEffect(() => {
         document.title = username ? `GitScan | ${username}` : 'GitScan';
@@ -69,6 +79,22 @@ const Home = () => {
                     </select>
                     {formError && <p className="error-message">{formError}</p>}
                     <button onClick={handleClick}>Scan my profile </button>
+                    <div className="examples">
+                        <p className="examples-label">Or try an example</p>
+                        <div className="examples-list">
+                            {EXAMPLES.map(example => (
+                                <button
+                                    key={example.username}
+                                    type="button"
+                                    className="example-chip"
+                                    onClick={() => handleExample(example)}
+                                >
+                                    <span className="example-name">@{example.username}</span>
+                                    <span className="example-role">{example.role}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
     
