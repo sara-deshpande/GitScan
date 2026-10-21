@@ -73,7 +73,7 @@ const ScorePage = () => {
             const result = { ...data, role, version: ANALYSIS_VERSION };
             setScores(result);
             localStorage.setItem(`gitscan-${username}`, JSON.stringify(result));
-            localStorage.removeItem(`gitscan-checks-${username}`);
+            localStorage.removeItem(`gitscan-checks-${username}-${role}`);
             setAiLoading(false);
     
         } catch (err) {

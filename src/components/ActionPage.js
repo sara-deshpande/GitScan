@@ -17,12 +17,12 @@ const ActionPage = () => {
         const saved = localStorage.getItem(`gitscan-${username}`);
         if(saved) {
             const parsed = JSON.parse(saved);
-            if (parsed.actionItems) {
+            if (parsed.actionItems && parsed.role === role) {
                 setActionItems(parsed.actionItems);
             }
         }
 
-        const savedChecks = localStorage.getItem(`gitscan-checks-${username}`);
+        const savedChecks = localStorage.getItem(`gitscan-checks-${username}-${role}`);
         if(savedChecks) {
             setCheckedItems(JSON.parse(savedChecks));
         }
@@ -40,7 +40,7 @@ const ActionPage = () => {
             [index]: !checkedItems[index]
         };
         setCheckedItems(updated);
-        localStorage.setItem(`gitscan-checks-${username}`,JSON.stringify(updated));
+        localStorage.setItem(`gitscan-checks-${username}-${role}`, JSON.stringify(updated));
     };
 
     const handleRerun = () => {
