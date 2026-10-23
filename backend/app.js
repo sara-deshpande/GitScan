@@ -10,6 +10,9 @@ dotenv.config();
 
 const app = express();
 
+const cache = new Map();
+const CACHE_TIME = 24 * 60 * 60 * 1000;
+
 const allowedOrigins = [
     'https://git-scan-lake.vercel.app',
     'http://localhost:3000'
@@ -48,6 +51,12 @@ app.post('/api/analyze', async (req, res) => {
     }
     if (!ROLES.includes(role)) {
         return res.status(400).json({ error: 'Please select a valid role.' });
+    }
+
+    const cacheKey = `${username.toLowerCase()}:${role}`;
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.savedAt < CACHE_TIME) {
+        return res.json(cached.result);
     }
 
     try {
@@ -97,6 +106,8 @@ app.post('/api/analyze', async (req, res) => {
             evidence: evidence[category.name] || null
         }));
         result.relevantRepos = evidence['Role Relevance'].rows.map(row => row.name);
+
+        cache.set(cacheKey, { result, savedAt: Date.now() });
 
         res.json(result);
 
