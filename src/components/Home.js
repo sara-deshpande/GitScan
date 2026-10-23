@@ -98,28 +98,25 @@ const Home = () => {
                 </div>
             </div>
     
-            <section className="steps">
-                <div className="steps-header">
-                    <h3>What you get</h3>
-                    <p>Pick the role you want. GitScan reads your public profile the way a recruiter skims it.</p>
-                </div>
+            <section className="wyg-section">
+                <div className="wyg">
+                    <div className="wyg-intro">
+                        <span className="wyg-kicker">What you get</span>
+                        <h2>Three things,<br />in one scan.</h2>
+                        <p>Everything a recruiter notices in the first minute, and what to do about it.</p>
+                    </div>
 
-                <div className="step-row row 1">
-                    <span className="step-num">[01]</span>
-                    <h4>Your score</h4>
-                    <p>A score out of 10 for the role you picked, broken into four categories.</p>
-                </div>
-
-                <div className="step-row row-2">
-                    <span className="step-num">[02]</span>
-                    <h4>What's holding you back</h4>
-                    <p>Specific feedback on your repos, descriptions and activity.</p>
-                </div>
-
-                <div className="step-row row-3">
-                    <span className="step-num">[03]</span>
-                    <h4>What to fix first</h4>
-                    <p>A checklist you can tick off as you improve your profile.</p>
+                    <div className="wyg-rows">
+                        {WHAT_YOU_GET.map((item) => (
+                            <div className="wyg-row" key={item.num}>
+                                <span className="wyg-num">[{item.num}]</span>
+                                <div>
+                                    <h3>{item.title}</h3>
+                                    <p>{item.text}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
         </div>
