@@ -8,6 +8,12 @@ const EXAMPLES = [
     { username: 'karpathy', role: 'AI Engineer' }
 ];
 
+const WHAT_YOU_GET = [
+    { num: '01', title: 'Your score', text: 'A recruiter-style score out of 10 for the role you want' },
+    { num: '02', title: 'Honest feedback', text: "What's working, what's missing, and the evidence behind it" },
+    { num: '03', title: 'Your action plan', text: 'A checklist of fixes, most important first' }
+];
+
 const Home = () => {
 
     const navigate = useNavigate();
