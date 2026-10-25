@@ -419,6 +419,113 @@
     padding: 5px 10px;
   }
 
+  /* ---------- What we check ---------- */
+
+.wwc-section {
+  padding: 0 6rem;
+  margin: 0 0 6rem;
+}
+
+.wwc {
+  background: #378ADD;
+  border-radius: 28px;
+  padding: 3.5rem 4rem 3.75rem;
+}
+
+.wwc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.wwc-kicker {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0D1E3B;
+  margin-bottom: 10px;
+}
+
+.wwc-head h2 {
+  max-width: 620px;
+  font-family: 'Playfair Display', serif;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #F5F0E8;
+  margin: 0;
+}
+
+.wwc-head p {
+  flex: 0 1 430px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #F5F0E8;
+  margin: 0;
+}
+
+.wwc-bar,
+.wwc-legend {
+  display: grid;
+  grid-template-columns: 20fr 25fr 25fr 30fr;
+  gap: 4px;
+}
+
+.wwc-bar {
+  height: 64px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.wwc-segment {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.wwc-legend {
+  margin-top: 22px;
+}
+
+.wwc-item {
+  padding-top: 16px;
+  padding-right: 16px;
+  border-top: 1px solid rgba(245, 240, 232, 0.4);
+}
+
+.wwc-item h3 {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #F5F0E8;
+  margin: 0 0 6px;
+}
+
+.wwc-swatch {
+  margin-top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 240, 232, 0.6);
+  flex-shrink: 0;
+}
+
+.wwc-item p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #EAF2FB;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
 
   .home {
@@ -524,6 +631,58 @@
   .hiw-step h3 {
     font-size: 18px;
     margin-top: 14px;
+  }
+
+  .wwc-section {
+    padding: 0 1rem;
+    margin: 0 0 4rem;
+  }
+
+  .wwc {
+    padding: 2rem 1.5rem;
+  }
+
+  .wwc-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .wwc-head h2 {
+    font-size: 34px;
+  }
+
+  .wwc-head p {
+    flex: none;
+  }
+
+  .wwc-bar {
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .wwc-segment {
+    padding-left: 8px;
+    font-size: 16px;
+  }
+
+  .wwc-legend {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 12px;
+  }
+
+  .wwc-item {
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+
+  .wwc-item h3 {
+    font-size: 15px;
+  }
+
+  .wwc-swatch {
+    margin-top: 4px;
   }
 }
 

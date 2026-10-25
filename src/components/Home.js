@@ -20,6 +20,13 @@ const HOW_IT_WORKS = [
     { title: 'Get your score and plan', text: 'Four category scores with evidence, plus a prioritized checklist of fixes.', tags: ['Score', 'Evidence', 'Action plan'] }
 ];
 
+const WHAT_WE_CHECK = [
+    { name: 'Documentation', weight: 20, text: 'READMEs, screenshots, setup steps and live demos', color: '#0D1E3B', textColor: '#F5F0E8' },
+    { name: 'Project variety', weight: 25, text: "Range and depth of what you've built", color: '#1a3a5c', textColor: '#F5F0E8' },
+    { name: 'Activity', weight: 25, text: 'Contributions and how recent your work is', color: '#7eb8f7', textColor: '#0D1E3B' },
+    { name: 'Role relevance', weight: 30, text: 'How well your projects match the role', color: '#F5F0E8', textColor: '#0D1E3B' }
+];
+
 const Home = () => {
 
     const navigate = useNavigate();
