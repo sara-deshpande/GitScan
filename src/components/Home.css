@@ -33,6 +33,9 @@
   background: #1a3a5c;
   border-radius: 20px;
   padding: 2.75rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(55, 138, 221, 0.45), inset 0 0 0 1px rgba(126, 184, 247, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .home-card label {
