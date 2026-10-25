@@ -14,6 +14,12 @@ const WHAT_YOU_GET = [
     { num: '03', title: 'Your action plan', text: 'A checklist of fixes, most important first' }
 ];
 
+const HOW_IT_WORKS = [
+    { title: 'Enter a username', text: "Pick the role you're applying for, from Frontend to AI Engineer.", tags: [] },
+    { title: 'GitScan reads your GitHub', text: 'Your repos, READMEs and a year of contributions, the way a recruiter skims them.', tags: ['Repos', 'READMEs', 'Contributions'] },
+    { title: 'Get your score and plan', text: 'Four category scores with evidence, plus a prioritized checklist of fixes.', tags: ['Score', 'Evidence', 'Action plan'] }
+];
+
 const Home = () => {
 
     const navigate = useNavigate();
@@ -123,6 +129,36 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
+                </div>
+            </section>
+            <section className="hiw-section">
+                <div className="hiw-head">
+                    <div>
+                        <span className="hiw-kicker">How it works</span>
+                        <h2>From username to plan <br />in about 15 seconds.</h2>
+                    </div>
+                    <p>No sign-up needed. GitScan only reads what's already public on your GitHub.</p>
+                </div>
+
+                <div className="hiw-timeline">
+                    <div className="hiw-track">
+                        <div className="hiw-track-fill"></div>
+                    </div>
+
+                    {HOW_IT_WORKS.map((step, index) => (
+                        <div className="hiw-step" key={step.title}>
+                            <span className="hiw-dot">{index + 1}</span>
+                            <h3>{step.title}</h3>
+                            <p>{step.text}</p>
+                            {step.tags.length > 0 && (
+                                <div className="hiw-tags">
+                                    {step.tags.map(tag => (
+                                        <span className="hiw-tag" key={tag}>{tag}</span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             </section>
         </div>
