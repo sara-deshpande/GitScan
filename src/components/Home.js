@@ -1,5 +1,5 @@
 import './Home.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import {useNavigate} from "react-router-dom";
 
 const EXAMPLES = [
@@ -26,6 +26,16 @@ const WHAT_WE_CHECK = [
     { name: 'Activity', weight: 25, text: 'Contributions and how recent your work is', color: '#7eb8f7', textColor: '#0D1E3B' },
     { name: 'Role relevance', weight: 30, text: 'How well your projects match the role', color: '#F5F0E8', textColor: '#0D1E3B' }
 ];
+
+const PIPELINE = [
+    { type: 'Source', title: 'GitHub API', text: 'Profile, repos, READMEs and a year of contributions' },
+    { type: 'Code', title: 'Fact check', text: 'Counts READMEs, commits and languages, and sets your level' },
+    { type: 'AI', title: 'LLM review', text: 'Writes the verdicts, strengths, gaps and action plan', isAi: true },
+    { type: 'Code', title: 'Guardrails', text: 'Checks the scores, calculates the overall and drops made-up repos' },
+    { type: 'Code', title: '24h cache', text: 'Repeat scans load instantly and cost nothing' }
+];
+
+const TECH_STACK = ['React', 'Express', 'GitHub REST + GraphQL', 'OpenAI API', 'Railway + Vercel'];
 
 const Home = () => {
 
@@ -199,6 +209,38 @@ const Home = () => {
                                 </h3>
                                 <p>{item.text}</p>
                             </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+            <section className="bts-section">
+                <div className="bts">
+                    <div className="bts-head">
+                        <div>
+                            <span className="bts-kicker">Behind the score</span>
+                            <h2>Facts in code.<br />Judgment from AI.</h2>
+                        </div>
+                        <p>The AI never invents numbers. Code gathers the facts and checks the AI's answer, so every score can be traced back to real evidence.</p>
+                    </div>
+
+                    <div className="bts-pipeline">
+                        {PIPELINE.map((step, index) => (
+                            <Fragment key={step.title}>
+                                <div className={`bts-node ${step.isAi ? 'is-ai' : ''}`}>
+                                    <span className="bts-node-type">{step.type}</span>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.text}</p>
+                                </div>
+                                {index < PIPELINE.length - 1 && (
+                                    <div className="bts-arrow" aria-hidden="true"></div>
+                                )}
+                            </Fragment>
+                        ))}
+                    </div>
+
+                    <div className="bts-tags">
+                        {TECH_STACK.map(tech => (
+                            <span className="bts-tag" key={tech}>{tech}</span>
                         ))}
                     </div>
                 </div>
