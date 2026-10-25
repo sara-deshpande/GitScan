@@ -1,6 +1,8 @@
 import './Home.css';
 import { useState, useEffect, Fragment } from 'react';
 import {useNavigate} from "react-router-dom";
+import { Reveal, RevealItem } from './Reveal';
+import { motion, MotionConfig } from 'framer-motion';
 
 const EXAMPLES = [
     { username: 'torvalds', role: 'Software Engineer' },
@@ -72,6 +74,7 @@ const Home = () => {
     }, [username]);
 
     return (
+        <MotionConfig reducedMotion="user">
         <div>
             <div className="home">
                 <div className="home-left">
@@ -128,44 +131,44 @@ const Home = () => {
             </div>
     
             <section className="wyg-section">
-                <div className="wyg">
-                    <div className="wyg-intro">
+                <Reveal className="wyg">
+                    <RevealItem className="wyg-intro">
                         <span className="wyg-kicker">What you get</span>
                         <h2>Three things,<br />in one scan.</h2>
                         <p>Everything a recruiter notices in the first minute, and what to do about it.</p>
-                    </div>
+                    </RevealItem>
 
                     <div className="wyg-rows">
                         {WHAT_YOU_GET.map((item) => (
-                            <div className="wyg-row" key={item.num}>
+                            <RevealItem className="wyg-row" key={item.num}>
                                 <span className="wyg-num">[{item.num}]</span>
                                 <div>
                                     <h3>{item.title}</h3>
                                     <p>{item.text}</p>
-                                    <span className="wyg-arrow" aria-hidden="true"></span>
                                 </div>
-                            </div>
+                                <span className="wyg-arrow" aria-hidden="true">→</span>
+                            </RevealItem>
                         ))}
                     </div>
-                </div>
+                </Reveal>
             </section>
-            <section className="hiw-section">
-                <div className="hiw-head">
+            <Reveal as="section" className="hiw-section">
+                <RevealItem className="hiw-head">
                     <div>
                         <span className="hiw-kicker">How it works</span>
                         <h2>From username to plan <br />in about 15 seconds.</h2>
                     </div>
                     <p>No sign-up needed. GitScan only reads what's already public on your GitHub.</p>
-                </div>
+                </RevealItem>
 
                 <div className="hiw-timeline">
                     <div className="hiw-track">
-                        <div className="hiw-track-fill"></div>
+                        <motion.div className="hiw-track-fill"></motion.div>
                     </div>
 
                     {HOW_IT_WORKS.map((step, index) => (
-                        <div className="hiw-step" key={step.title}>
-                            <span className="hiw-dot">{index + 1}</span>
+                        <RevealItem className="hiw-step" key={step.title}>
+                            <motion.span className="hiw-dot">{index + 1}</motion.span>
                             <h3>{step.title}</h3>
                             <p>{step.text}</p>
                             {step.tags.length > 0 && (
@@ -175,65 +178,67 @@ const Home = () => {
                                     ))}
                                 </div>
                             )}
-                        </div>
+                        </RevealItem>
                     ))}
                 </div>
-            </section>
-            <section className="wwc-section">
+            </Reveal>
+            <Reveal className="wwc-section">
                 <div className="wwc">
-                    <div className="wwc-head">
+                    <RevealItem className="wwc-head">
                         <div>
                             <span className="wwc-kicker">What we check</span>
                             <h2>Four categories, weighted like a recruiter would.</h2>
                         </div>
                         <p>Role relevance counts the most, because it's the first thing a hiring manager looks for. The overall score is calculated in code, not guessed by the AI.</p>
-                    </div>
+                    </RevealItem>
 
-                    <div className="wwc-bar">
+                    <RevealItem className="wwc-bar">
                         {WHAT_WE_CHECK.map(item => (
-                            <div
+                            <motion.div
                                 className="wwc-segment"
                                 key={item.name}
                                 style={{ background: item.color, color: item.textColor }}
                             >
                                 {item.weight}%
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </RevealItem>
 
                     <div className="wwc-legend">
-                        {WHAT_WE_CHECK.map(item => (
-                            <div className="wwc-item" key={item.name}>
+                        {WHAT_WE_CHECK.map((item, index) => (
+                            <RevealItem className="wwc-item" key={item.name}>
                                 <h3>
                                     <span className="wwc-swatch" style={{ background: item.color }}></span>
                                     {item.name}
                                 </h3>
                                 <p>{item.text}</p>
-                            </div>
+                            </RevealItem>
                         ))}
                     </div>
                 </div>
-            </section>
+            </Reveal>
             <section className="bts-section">
-                <div className="bts">
-                    <div className="bts-head">
+                <Reveal className="bts">
+                    <RevealItem className="bts-head">
                         <div>
                             <span className="bts-kicker">Behind the score</span>
                             <h2>Facts in code.<br />Judgment from AI.</h2>
                         </div>
                         <p>The AI never invents numbers. Code gathers the facts and checks the AI's answer, so every score can be traced back to real evidence.</p>
-                    </div>
+                    </RevealItem>
 
                     <div className="bts-pipeline">
                         {PIPELINE.map((step, index) => (
                             <Fragment key={step.title}>
-                                <div className={`bts-node ${step.isAi ? 'is-ai' : ''}`}>
+                                <RevealItem className={`bts-node ${step.isAi ? 'is-ai' : ''}`}>
                                     <span className="bts-node-type">{step.type}</span>
                                     <h3>{step.title}</h3>
                                     <p>{step.text}</p>
-                                </div>
+                                </RevealItem>
                                 {index < PIPELINE.length - 1 && (
-                                    <div className="bts-arrow" aria-hidden="true"></div>
+                                    <RevealItem className="bts-arrow">
+                                        <motion.span className="bts-pulse" ></motion.span>
+                                    </RevealItem>
                                 )}
                             </Fragment>
                         ))}
@@ -244,9 +249,10 @@ const Home = () => {
                             <span className="bts-tag" key={tech}>{tech}</span>
                         ))}
                     </div>
-                </div>
+                </Reveal>
             </section>
         </div>
+        </MotionConfig>
     );
 }
 
