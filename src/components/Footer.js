@@ -4,8 +4,7 @@ const Footer = () => {
     return (
         <footer className="footer">
             <p>
-                GitScan reads public GitHub data and sends it to OpenAI to generate your analysis.
-                Nothing is stored on a server. Your results stay in your own browser.
+            GitScan reads public GitHub data and sends it to OpenAI to generate your analysis. Results are kept on the server for 24 hours so repeat scans load instantly, and a copy is saved in your browser.
             </p>
             <p>
                 Built by Sara Deshpande ·{' '}
