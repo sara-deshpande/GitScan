@@ -142,6 +142,7 @@ const Home = () => {
                                 <div>
                                     <h3>{item.title}</h3>
                                     <p>{item.text}</p>
+                                    <span className="wyg-arrow" aria-hidden="true"></span>
                                 </div>
                             </div>
                         ))}

@@ -95,6 +95,7 @@
   font-weight: 700;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .home-card button:hover {
@@ -110,66 +111,6 @@
   font-size: 12px;
   margin-bottom: 10px;
   text-align: center;
-}
-
-.steps {
-  margin: 4.5rem 6rem 3rem 8rem;
-  padding: 2rem 2.5rem 1rem;
-  background: #0D1E3B;
-  border-radius: 20px;
-}
-
-.steps-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2rem;
-  padding-bottom: 1.5rem;
-}
-
-.steps-header h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #F5F0E8;
-  line-height: 1.1;
-}
-
-.steps-header p {
-  font-size: 11px;
-  color: #F5F0E8;
-  line-height: 1.7;
-  max-width: 300px;
-}
-
-.step-row {
-  display: grid;
-  grid-template-columns: 70px 1fr 1.2fr;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.4rem 0.75rem;
-  border-top: 1px solid rgba(245, 240, 232, 0.35);
-}
-
-.step-num {
-  font-size: 12px;
-  font-weight: 600;
-  color: #F5F0E8;
-  letter-spacing: 0.05em;
-}
-
-.step-row h4 {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: #F5F0E8;
-}
-
-.step-row p {
-  font-size: 13px;
-  color: #F5F0E8;
-  line-height: 1.6;
-  max-width: 400px;
 }
 
   /* ---------- What you get ---------- */
@@ -217,7 +158,7 @@
   
   .wyg-row {
     display: grid;
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 70px 1fr 28px;
     align-items: center;
     padding: 26px 0;
     border-top: 1px solid rgba(245, 240, 232, 0.25);
@@ -246,7 +187,19 @@
     color: #C8D9E6;
     margin: 0;
   }
-  
+
+  .wyg-num,
+  .wyg-row > div,
+  .wyg-arrow {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .wyg-arrow {
+    font-size: 22px;
+    color: #F5F0E8;
+    opacity: 0;
+    transform: translateX(-8px);
+  }
   
   .examples {
     margin-top: 1.25rem;
@@ -286,11 +239,7 @@
     font-weight: 600;
     text-align: left;
     cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .home-card .example-chip:hover {
-    background: rgba(245, 240, 232, 0.12);
+    transition: background 0.2s ease, transform 0.2s ease;
   }
   
   .home-card .example-chip:focus-visible {
@@ -389,6 +338,7 @@
     font-size: 28px;
     font-weight: 800;
     margin-bottom: 28px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   
   .hiw-step h3 {
@@ -591,6 +541,7 @@
   border: 2px solid #1a3a5c;
   border-radius: 16px;
   padding: 20px 18px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .bts-node.is-ai {
@@ -704,7 +655,7 @@
   }
 
   .wyg-row {
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: 50px 1fr 0;
     padding: 20px 0;
   }
 
@@ -874,6 +825,43 @@
     bottom: 2px;
     border: 6px solid transparent;
     border-top: 8px solid #1a3a5c;
+  }
+}
+
+/* ---------- Hover effects (mouse and trackpad only) ---------- */
+
+@media (hover: hover) {
+  .home-card > button:hover {
+    transform: translateY(-2px);
+  }
+
+  .home-card .example-chip:hover {
+    background: rgba(245, 240, 232, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .wyg-row:hover .wyg-num,
+  .wyg-row:hover > div {
+    transform: translateX(8px);
+  }
+
+  .wyg-row:hover .wyg-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .hiw-step:hover .hiw-dot {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 8px rgba(55, 138, 221, 0.18);
+  }
+
+  .bts-node:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(13, 30, 59, 0.15);
+  }
+
+  .bts-node.is-ai:hover {
+    box-shadow: 0 20px 48px rgba(55, 138, 221, 0.5);
   }
 }
 
