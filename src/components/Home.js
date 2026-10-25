@@ -161,6 +161,41 @@ const Home = () => {
                     ))}
                 </div>
             </section>
+            <section className="wwc-section">
+                <div className="wwc">
+                    <div className="wwc-head">
+                        <div>
+                            <span className="wwc-kicker">What we check</span>
+                            <h2>Four categories, weighted like a recruiter would.</h2>
+                        </div>
+                        <p>Role relevance counts the most, because it's the first thing a hiring manager looks for. The overall score is calculated in code, not guessed by the AI.</p>
+                    </div>
+
+                    <div className="wwc-bar">
+                        {WHAT_WE_CHECK.map(item => (
+                            <div
+                                className="wwc-segment"
+                                key={item.name}
+                                style={{ background: item.color, color: item.textColor }}
+                            >
+                                {item.weight}%
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="wwc-legend">
+                        {WHAT_WE_CHECK.map(item => (
+                            <div className="wwc-item" key={item.name}>
+                                <h3>
+                                    <span className="wwc-swatch" style={{ background: item.color }}></span>
+                                    {item.name}
+                                </h3>
+                                <p>{item.text}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
