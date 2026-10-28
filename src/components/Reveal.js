@@ -7,7 +7,7 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } }
 };
 
-export const Reveal = ({ children, className, as = 'div', stagger = 0.12 }) => {
+export const Reveal = ({ children, className, as = 'div', stagger = 0.12, amount = 0.15 }) => {
     const Tag = motion[as];
 
     return (
@@ -16,7 +16,7 @@ export const Reveal = ({ children, className, as = 'div', stagger = 0.12 }) => {
                 className={className}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.15 }}
+                viewport={{ once: true, amount }}
                 variants={{
                     hidden: {},
                     visible: { transition: { staggerChildren: stagger } }
@@ -28,11 +28,11 @@ export const Reveal = ({ children, className, as = 'div', stagger = 0.12 }) => {
     );
 };
 
-export const RevealItem = ({ children, className, as = 'div' }) => {
+export const RevealItem = ({ children, className, as = 'div', ...rest }) => {
     const Tag = motion[as];
 
     return (
-        <Tag className={className} variants={itemVariants}>
+        <Tag className={className} variants={itemVariants} {...rest}>
             {children}
         </Tag>
     );

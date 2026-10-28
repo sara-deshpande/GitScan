@@ -1,4 +1,5 @@
 import './RepoLists.css';
+import { motion, MotionConfig } from 'framer-motion';
 
 const timeAgo = (dateString) => {
     const days = Math.floor((Date.now() - new Date(dateString)) / 86400000);
@@ -20,14 +21,19 @@ const RepoLists = ({ repos = [], title, languageColors = {} }) => {
                 <span>{repos.length}</span>
             </div>
 
+            <MotionConfig reducedMotion="user">
             <div className="repo-grid">
                 {repos.map((repo, index) => (
-                    <a
+                    <motion.a
                         className="repo-card"
                         key={repo.id}
                         href={repo.html_url}
                         target="_blank"
                         rel="noreferrer"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: (index % 2) * 0.08 }}
                     >
                         <span className="repo-num">[{String(index + 1).padStart(2, '0')}]</span>
                         <h4>{repo.name}</h4>
@@ -46,9 +52,10 @@ const RepoLists = ({ repos = [], title, languageColors = {} }) => {
                             <span>{repo.stargazers_count} {repo.stargazers_count === 1 ? 'star' : 'stars'}</span>
                             <span>Updated {timeAgo(repo.pushed_at)}</span>
                         </div>
-                    </a>
+                    </motion.a>
                 ))}
             </div>
+            </MotionConfig>
         </section>
     );
 }
