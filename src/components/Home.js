@@ -39,6 +39,49 @@ const PIPELINE = [
 
 const TECH_STACK = ['React', 'Express', 'GitHub REST + GraphQL', 'OpenAI API', 'Railway + Vercel'];
 
+const EASE = [0.22, 1, 0.36, 1];
+
+const headlineVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } }
+};
+
+const lineVariants = {
+    hidden: { y: '110%' },
+    visible: { y: '0%', transition: { duration: 0.8, ease: EASE } }
+};
+
+const trackVariants = {
+    hidden: { scaleX: 0 },
+    visible: { scaleX: 1, transition: { duration: 1.2, ease: 'linear' } }
+};
+
+const dotVariants = {
+    hidden: { backgroundColor: '#F5F0E8', color: '#1a3a5c' },
+    visible: (index) => ({
+        backgroundColor: '#1a3a5c',
+        color: '#F5F0E8',
+        transition: { delay: index * 0.45, duration: 0.3 }
+    })
+};
+
+const segmentVariants = {
+    hidden: { clipPath: 'inset(0 100% 0 0)' },
+    visible: (index) => ({
+        clipPath: 'inset(0 0% 0 0)',
+        transition: { delay: 0.2 + index * 0.15, duration: 0.6, ease: EASE }
+    })
+};
+
+const pulseVariants = {
+    hidden: { opacity: 0, '--progress': '0%' },
+    visible: (index) => ({
+        opacity: [0, 1, 1, 0],
+        '--progress': '100%',
+        transition: { delay: 1.4 + index * 0.2, duration: 0.5, ease: 'easeInOut' }
+    })
+};
+
 const Home = () => {
 
     const navigate = useNavigate();
@@ -78,8 +121,18 @@ const Home = () => {
         <div>
             <div className="home">
                 <div className="home-left">
-                    <h2>Know what <br /> recruiters <br /> <em>actually</em> see.</h2>
-                    <p>Enter your GitHub username and the role you want. GitScan scores your profile, shows what's weak and tells you what to fix first.</p>
+                <motion.h2 initial="hidden" animate="visible" variants={headlineVariants}>
+                        <span className="hero-line"><motion.span variants={lineVariants}>Know what</motion.span></span>
+                        <span className="hero-line"><motion.span variants={lineVariants}>recruiters</motion.span></span>
+                        <span className="hero-line"><motion.span variants={lineVariants}><em>actually</em> see.</motion.span></span>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7, duration: 0.6, ease: EASE }}
+                    >
+                        Enter your GitHub username and the role you want. GitScan scores your profile, shows what's weak and tells you what to fix first.
+                    </motion.p>
                 </div>
     
                 <div className="home-card">
@@ -163,12 +216,12 @@ const Home = () => {
 
                 <div className="hiw-timeline">
                     <div className="hiw-track">
-                        <motion.div className="hiw-track-fill"></motion.div>
+                    <motion.div className="hiw-track-fill" variants={trackVariants}></motion.div>
                     </div>
 
                     {HOW_IT_WORKS.map((step, index) => (
                         <RevealItem className="hiw-step" key={step.title}>
-                            <motion.span className="hiw-dot">{index + 1}</motion.span>
+                        <motion.span className="hiw-dot" variants={dotVariants} custom={index}>{index + 1}</motion.span>
                             <h3>{step.title}</h3>
                             <p>{step.text}</p>
                             {step.tags.length > 0 && (
@@ -193,11 +246,13 @@ const Home = () => {
                     </RevealItem>
 
                     <RevealItem className="wwc-bar">
-                        {WHAT_WE_CHECK.map(item => (
+                        {WHAT_WE_CHECK.map((item,index) => (
                             <motion.div
                                 className="wwc-segment"
                                 key={item.name}
                                 style={{ background: item.color, color: item.textColor }}
+                                variants={segmentVariants}
+                                custom={index}
                             >
                                 {item.weight}%
                             </motion.div>
@@ -237,7 +292,7 @@ const Home = () => {
                                 </RevealItem>
                                 {index < PIPELINE.length - 1 && (
                                     <RevealItem className="bts-arrow">
-                                        <motion.span className="bts-pulse" ></motion.span>
+                                    <motion.span className="bts-pulse" variants={pulseVariants} custom={index}></motion.span>
                                     </RevealItem>
                                 )}
                             </Fragment>
