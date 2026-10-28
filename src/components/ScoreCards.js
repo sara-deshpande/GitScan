@@ -6,7 +6,7 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const cardNumber = (index) => `[${String(index + 1).padStart(2, '0')}]`;
 
-const CardFront = ({ category, index }) => (
+const CardFront = ({ category, index, intro = false }) => (
     <>
         <span className="score-num">{cardNumber(index)}</span>
         <div className="score-card-header">
@@ -17,7 +17,7 @@ const CardFront = ({ category, index }) => (
         </div>
         <div className="score-bar-bg">
             <div
-                className="score-bar-fill"
+                className={`score-bar-fill${intro ? ' is-intro' : ''}`}
                 style={{ width: `${category.score * 10}%` }}
             ></div>
         </div>
@@ -90,6 +90,13 @@ const ScoreCards = ({ categories }) => {
     const [flipped, setFlipped] = useState(false);
     const cardRefs = useRef([]);
 
+    const [introDone, setIntroDone] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIntroDone(true), 1600);
+        return () => clearTimeout(timer);
+    }, []);
+
     const openCard = (index) => {
         setOpenIndex(index);
         setFlipped(true);
@@ -129,11 +136,12 @@ const ScoreCards = ({ categories }) => {
         <MotionConfig reducedMotion="user">
             <div className="score-grid">
                 {categories.map((category, index) => (
-                    <div
-                        className="score-card-slot"
-                        key={category.name}
-                        ref={el => (cardRefs.current[index] = el)}
-                    >
+                <div
+                    className="score-card-slot"
+                    key={category.name}
+                    ref={el => (cardRefs.current[index] = el)}
+                    style={{ '--i': index }}
+                >
                         {openIndex === index ? (
                             <div className="score-card score-card-placeholder" aria-hidden="true">
                                 <CardFront category={category} index={index} />
@@ -146,7 +154,7 @@ const ScoreCards = ({ categories }) => {
                                 transition={{ duration: 0.5, ease: EASE }}
                             >
                                 <motion.div layout="position" className="score-card-inner">
-                                    <CardFront category={category} index={index} />
+                                    <CardFront category={category} index={index} intro={!introDone} />
                                     <button type="button" className="score-card-open">
                                         See the evidence <span aria-hidden="true"></span>
                                     </button>

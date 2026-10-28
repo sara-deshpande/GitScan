@@ -287,3 +287,49 @@
         width: 100%;
     }
 }
+
+/* ---------- Intro animation ---------- */
+
+@keyframes score-rise {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes score-bar-grow {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.score-card-slot {
+    animation: score-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+.score-bar-fill.is-intro {
+    transform-origin: left center;
+    animation: score-bar-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i) * 0.1s + 0.25s);
+}
+
+.score-next {
+    animation: score-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .score-card-slot,
+    .score-bar-fill.is-intro,
+    .score-next {
+        animation: none;
+    }
+}
