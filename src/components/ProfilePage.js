@@ -3,6 +3,7 @@ import {useParams, useNavigate, useLocation} from "react-router-dom";
 import {useEffect} from 'react';
 import useGitHub from '../hooks/useGitHub';
 import RepoLists from './RepoLists';
+import { motion } from 'framer-motion';
 
 const LANGUAGE_PALETTE = ['#378ADD', '#7eb8f7', '#567C8D', '#C5A28C', '#0D1E3B', '#C8D9E6'];
 
@@ -139,7 +140,12 @@ const ProfilePage = () => {
                         <h3>Languages</h3>
                         <span>Across {repoList.length} repos</span>
                     </div>
-                    <div className="lang-bar">
+                    <motion.div
+                        className="lang-bar"
+                        initial={{ clipPath: 'inset(0 100% 0 0)' }}
+                        animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                        transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                    >
                         {languages.map(([language, count]) => (
                             <div
                                 key={language}
@@ -151,7 +157,8 @@ const ProfilePage = () => {
                                 title={`${language}: ${count}`}
                             ></div>
                         ))}
-                    </div>
+                    </motion.div>
+
                     <ul className="lang-legend">
                         {languages.map(([language, count]) => (
                             <li key={language}>
