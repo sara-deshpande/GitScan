@@ -1,6 +1,7 @@
 import './ActionPage.css';
 import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import { Reveal, RevealItem } from './Reveal';
 
 const ActionPage = () => {
 
@@ -46,7 +47,7 @@ const ActionPage = () => {
 
     const handleRerun = () => {
         localStorage.removeItem(`gitscan-${username}`);
-        localStorage.removeItem(`gitscan-checks-${username}`);
+        localStorage.removeItem(`gitscan-checks-${username}-${role}`);
         navigate(`/results/${username}${location.search}`);
     };
 
@@ -86,13 +87,13 @@ const ActionPage = () => {
                 </div>
             </section>
 
-            <div className="action-list">
+            <Reveal className="action-list" stagger={0.08} amount="some">
                 {actionItems.map((item, index) => (
-                    <div
-                        className={`action-item ${checkedItems[index] ? 'completed' : ''}`}
-                        key={index}
-                        onClick={() => handleClick(index)}
-                    >
+                <RevealItem
+                    className={`action-item ${checkedItems[index] ? 'completed' : ''}`}
+                    key={index}
+                    onClick={() => handleClick(index)}
+                >
                         <div className={`action-checkbox ${checkedItems[index] ? 'checked' : ''}`}>
                             {checkedItems[index] && <span>✓</span>}
                         </div>
@@ -101,9 +102,9 @@ const ActionPage = () => {
                             <p className="action-title">{typeof item === 'string' ? item : item.title}</p>
                             {item.detail && <p className="action-detail">{item.detail}</p>}
                         </div>
-                    </div>
+                </RevealItem>
                 ))}
-            </div>
+            </Reveal>
 
             {completedCount === totalCount && totalCount > 0 && (
                 <div className="action-complete">
