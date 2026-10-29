@@ -3,6 +3,7 @@ import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import useGitHub from '../hooks/useGitHub'; 
 import ScoreCards from './ScoreCards';
+import LoadingScreen from './LoadingScreen';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://gitscan-production-7918.up.railway.app';
 const ANALYSIS_VERSION = 3;
@@ -84,31 +85,7 @@ const ScorePage = () => {
     };
 
     if (githubLoading || aiLoading) {
-        return (
-            <div className="skeleton-page">
-                <div className="skeleton-pulse">
-                    <div className="skeleton-hero">
-                        <div className="skeleton-lines">
-                            <div className="skeleton-line short"></div>
-                            <div className="skeleton-line long"></div>
-                            <div className="skeleton-line mid"></div>
-                        </div>
-                        <div className="skeleton-square"></div>
-                    </div>
-                    <div className="skeleton-grid">
-                        <div className="skeleton-card bright"></div>
-                        <div className="skeleton-card bright"></div>
-                        <div className="skeleton-card bright"></div>
-                        <div className="skeleton-card bright"></div>
-                    </div>
-                </div>
-                <p className="skeleton-status">
-                    {githubLoading
-                        ? `Reading @${username}'s repos...`
-                        : 'Writing your analysis. This can take a few seconds.'}
-                </p>
-            </div>
-        );
+        return <LoadingScreen username={username} />;
     }
 
     if (githubError) {
