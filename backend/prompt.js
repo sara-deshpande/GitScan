@@ -92,6 +92,16 @@ export const getScoreLimits = (signals) => {
     return { famous, activity, maxDocumentation, maxVariety, maxRole };
 };
 
+const readmeFacts = (profile) => (profile.repos || [])
+    .filter(repo => repo.readme && repo.readme !== 'not checked')
+    .map(repo => {
+        if (!repo.readme.hasReadme) return `- ${repo.name}: no README`;
+        const yesNo = (value) => (value ? 'yes' : 'no');
+        const hasDemo = Boolean(repo.liveDemoUrl || repo.readme.hasLiveDemoLink);
+        return `- ${repo.name}: README yes, screenshots ${yesNo(repo.readme.hasImagesOrScreenshots)}, setup steps ${yesNo(repo.readme.hasSetupInstructions)}, live demo ${yesNo(hasDemo)}`;
+    })
+    .join('\n');
+
 export const buildPrompt = (profile, role, level, limits) => {
     const activityLine = limits.activity !== null
         ? `- "Activity and Consistency" is ${limits.activity}. Use exactly this score and explain it in the text.`
@@ -99,6 +109,7 @@ export const buildPrompt = (profile, role, level, limits) => {
     const roleLine = limits.famous
         ? '- "Role Relevance": no extra limit.'
         : `- "Role Relevance" can be at most ${limits.maxRole}, and at most 4 plus the number of repos you list in relevantRepos.`;
+    const facts = readmeFacts(profile);
     const system = `You are a senior technical recruiter with over ten years of hiring for software roles, working alongside a staff engineer who reviews code portfolios. You review GitHub profiles the way a real recruiter does: quickly, fairly, and with specific, practical advice.
 
 Rules you always follow:
@@ -178,6 +189,13 @@ ACCURACY
 - Keep facts consistent across all four categories. Never describe the same repo differently in two places.
 - In "relevantRepos", list the names of the repos you counted as relevant to ${role}, spelled exactly as in the data. Use an empty list if none are relevant.
 
+README FACTS
+
+These were checked in code. Treat them as the truth, even if a README excerpt seems to say otherwise:
+${facts}
+
+When you mention a README, screenshots, setup steps or a live demo for a repo, it must match this list exactly. Only name several repos together in one sentence if the fact is the same for all of them.
+
 ACTION PLAN
 
 Write a prioritized action plan with the most impactful item first:
@@ -217,7 +235,14 @@ Return only this JSON. Do not include an overall score or a level, they are calc
 
 PROFILE DATA
 
-${JSON.stringify(profile)}`;
+${JSON.stringify(profile)}
+
+BEFORE YOU ANSWER
+
+Check your JSON once more and fix anything that breaks these rules:
+- Never use the words "consider", "showcase" or "demonstrate your skills". Write direct instructions instead, for example "Add a screenshot" instead of "Consider adding a screenshot".
+- Every claim about a README, screenshots, setup steps or a live demo matches the README FACTS list.
+- No em dashes or en dashes.`;
 
     return { system, user };
 };
