@@ -40,6 +40,7 @@ app.use(express.json());
 app.use('/api/', rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 20,
+    skip: () => process.env.EVAL_MODE === 'true',
     message: { error: 'Too many scans from this network. Please wait 15 minutes and try again.' }
 }));
 
@@ -55,7 +56,7 @@ app.post('/api/analyze', async (req, res) => {
 
     const cacheKey = `${username.toLowerCase()}:${role}`;
     const cached = cache.get(cacheKey);
-    if (cached && Date.now() - cached.savedAt < CACHE_TIME) {
+    if (process.env.EVAL_MODE !== 'true' && cached && Date.now() - cached.savedAt < CACHE_TIME) {
         return res.json(cached.result);
     }
 
