@@ -95,6 +95,7 @@ const checkStyle = (result) => {
     return problems;
 };
 
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const checkContradictions = (result) => {
     const docs = result.categories.find(c => c.name === 'Documentation Quality');
     const rows = docs?.evidence?.rows || [];
@@ -102,10 +103,10 @@ const checkContradictions = (result) => {
 
     result.categories.forEach(category => {
         ['strength', 'gap'].forEach(field => {
-            const sentences = String(category[field]).split(/(?<=[.!?])\s+/);
+            const sentences = String(category[field]).split(/(?<=[.!?])\s+|[;,]\s*(?:while|but|whereas)\b/i);
             sentences.forEach(sentence => {
                 rows.forEach(row => {
-                    if (!sentence.toLowerCase().includes(row.name.toLowerCase())) return;
+                    if (!new RegExp(`(^|[^\\w-])${escapeRegex(row.name)}([^\\w-]|$)`, 'i').test(sentence)) return;
                     FEATURES.forEach(feature => {
                         const match = sentence.match(feature.mention);
                         if (!match) return;
