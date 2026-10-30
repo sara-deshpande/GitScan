@@ -107,8 +107,10 @@ const checkContradictions = (result) => {
                 rows.forEach(row => {
                     if (!sentence.toLowerCase().includes(row.name.toLowerCase())) return;
                     FEATURES.forEach(feature => {
-                        if (!feature.mention.test(sentence)) return;
-                        const saysHas = !NEGATIVE.test(sentence);
+                        const match = sentence.match(feature.mention);
+                        if (!match) return;
+                        const before = sentence.slice(Math.max(0, match.index - 40), match.index);
+                        const saysHas = !NEGATIVE.test(before);
                         const reallyHas = feature.has(row.detail);
                         if (saysHas !== reallyHas) {
                             flagged.push(`${category.name} ${field} | ${row.name} | ${feature.name}: text says ${saysHas ? 'has' : 'lacks'}, evidence says "${row.detail}" | "${sentence}"`);
