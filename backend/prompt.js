@@ -20,30 +20,85 @@ const ROLE_GUIDES = {
     'AI Engineer': 'building applications on top of AI models: LLM APIs, prompt design, retrieval, agents and tool use, and evaluation, plus the engineering around them such as APIs, data handling and deployment.'
 };
 
-export const getLevel = (profile) => {
+export const getSignals = (profile) => {
     const repos = profile.repos || [];
-    const realProjects = repos.filter(repo =>
-        !repo.isEmpty &&
-        (repo.description || (repo.readme?.hasReadme && repo.readme.lengthInCharacters >= 300))
-    ).length;
-    const totalStars = repos.reduce((sum, repo) => sum + (repo.stars || 0), 0);
+    const checked = repos.filter(repo => repo.readme && repo.readme !== 'not checked');
+    const withReadme = checked.filter(repo => repo.readme.hasReadme);
     const contributions = profile.contributions?.totalContributionsLastYear;
-    const hasContributionData = typeof contributions === 'number';
+    const pushTimes = repos.map(repo => new Date(repo.lastPushed).getTime()).filter(Boolean);
+    const latestPush = pushTimes.length ? Math.max(...pushTimes) : 0;
 
-    if (realProjects < 3 || (hasContributionData && contributions < 50)) {
-        return 'beginner';
-    }
+    return {
+        projects: repos.filter(repo => !repo.isEmpty).length,
+        totalStars: repos.reduce((sum, repo) => sum + (repo.stars || 0), 0),
+        contributions: typeof contributions === 'number' ? contributions : null,
+        yearsActive: profile.accountAgeYears || 0,
+        readmeShare: checked.length ? withReadme.length / checked.length : 0,
+        monthsSincePush: latestPush ? (Date.now() - latestPush) / (30 * 24 * 60 * 60 * 1000) : 99
+    };
+};
 
-    const yearsActive = profile.accountAgeYears || 0;
-    const steadyActivity = !hasContributionData || contributions >= 300;
-    if (yearsActive >= 3 && steadyActivity && (totalStars >= 100 || realProjects >= 8)) {
+export const getLevel = (signals) => {
+    const { projects, totalStars, contributions, yearsActive } = signals;
+
+    if (yearsActive >= 3 && projects >= 8 && totalStars >= 1000) {
         return 'advanced';
     }
-
+    if (projects < 3 || (contributions !== null && contributions < 50 && projects < 8)) {
+        return 'beginner';
+    }
+    if (yearsActive >= 3 && (contributions === null || contributions >= 300) && (totalStars >= 100 || projects >= 8)) {
+        return 'advanced';
+    }
     return 'intermediate';
 };
 
-export const buildPrompt = (profile, role, level) => {
+const ACTIVITY_STEPS = [[1000, 10], [500, 9], [250, 8], [150, 7], [80, 6], [40, 5], [15, 4], [5, 3], [1, 2]];
+
+export const getScoreLimits = (signals) => {
+    const { projects, totalStars, contributions, readmeShare, monthsSincePush } = signals;
+    const famous = totalStars >= 1000;
+
+    let activity = null;
+    if (contributions !== null) {
+        const step = ACTIVITY_STEPS.find(([minimum]) => contributions >= minimum);
+        activity = step ? step[1] : 1;
+        if (monthsSincePush > 12) activity -= 2;
+        else if (monthsSincePush > 6) activity -= 1;
+        activity = Math.max(1, activity);
+    }
+
+    let maxVariety = 10;
+    if (!famous) {
+        if (projects <= 1) maxVariety = 3;
+        else if (projects === 2) maxVariety = 4;
+        else if (projects === 3) maxVariety = 5;
+        else if (projects <= 5) maxVariety = 6;
+        else if (projects <= 9) maxVariety = 8;
+    }
+
+    let maxDocumentation = 10;
+    if (!famous) {
+        if (readmeShare < 0.25) maxDocumentation = 4;
+        else if (readmeShare < 0.5) maxDocumentation = 5;
+        else if (readmeShare < 0.75) maxDocumentation = 7;
+    }
+    if (projects <= 1) maxDocumentation = Math.min(maxDocumentation, 4);
+
+    let maxRole = 10;
+    if (projects <= 1) maxRole = 4;
+    else if (projects === 2) maxRole = 5;
+
+    return { famous, activity, maxDocumentation, maxVariety, maxRole };
+};
+
+export const buildPrompt = (profile, role, level, limits) => {
+    const activityLine = limits.activity !== null
+        ? `- "Activity and Consistency" is ${limits.activity}. Use exactly this score and explain it in the text.`
+        : '- "Activity and Consistency": contribution data is missing, so judge it from the repo push dates.';
+    const roleLine = limits.famous
+        ? '- "Role Relevance": no extra limit.'
+        : `- "Role Relevance" can be at most ${limits.maxRole}, and at most 4 plus the number of repos you list in relevantRepos.`;
     const system = `You are a senior technical recruiter with over ten years of hiring for software roles, working alongside a staff engineer who reviews code portfolios. You review GitHub profiles the way a real recruiter does: quickly, fairly, and with specific, practical advice.
 
 Rules you always follow:
@@ -67,6 +122,14 @@ EXPERIENCE LEVEL
 This person's level is "${level}". It was calculated in code from their projects, contributions and account age, so use it exactly as given.
 
 Match all of your advice to that level. A beginner needs clear, simple first steps. An advanced developer needs higher-level upgrades, such as a stronger flagship project write-up, architecture or performance notes, open source involvement or a clearer pinned repo strategy. Do not tell someone to add a README if they already have good ones.
+
+SCORES SET BY CODE
+
+Some scores are limited by code using the GitHub data, so they stay fair and consistent. These are limits, not targets: score lower when the evidence is weaker.
+${activityLine}
+- "Documentation Quality" can be at most ${limits.maxDocumentation}.
+- "Project Variety" can be at most ${limits.maxVariety}.
+${roleLine}
 
 SCORING
 
@@ -161,22 +224,37 @@ ${JSON.stringify(profile)}`;
 
 const removeDashes = (text) => String(text || '').replace(/\s*[\u2014\u2013]\s*/g, ', ');
 
-export const formatAnalysis = (analysis, level) => {
-    const categories = (analysis.categories || []).map(category => ({
-        name: category.name,
-        score: Math.min(10, Math.max(1, Math.round(Number(category.score) || 1))),
-        verdict: removeDashes(category.verdict),
-        strength: removeDashes(category.strength),
-        gap: removeDashes(category.gap)
-    }));
+export const formatAnalysis = (analysis, level, limits, profile) => {
+    const repoNames = (profile.repos || []).map(repo => repo.name.toLowerCase());
+    const relevantRepos = (Array.isArray(analysis.relevantRepos) ? analysis.relevantRepos : [])
+        .filter(name => repoNames.includes(String(name).toLowerCase()));
+    const maxRole = limits.famous ? 10 : Math.min(limits.maxRole, 4 + relevantRepos.length);
 
-    if (level === 'advanced') {
-        categories.forEach(category => {
-            if (category.name === 'Role Relevance' && category.score < 5) {
-                category.score = 5;
-            }
-        });
-    }
+    const categories = (analysis.categories || []).map(category => {
+        let score = Math.min(10, Math.max(1, Math.round(Number(category.score) || 1)));
+
+        if (category.name === 'Activity and Consistency' && limits.activity !== null) {
+            score = limits.activity;
+        }
+        if (category.name === 'Documentation Quality') {
+            score = Math.min(score, limits.maxDocumentation);
+        }
+        if (category.name === 'Project Variety') {
+            score = Math.min(score, limits.maxVariety);
+        }
+        if (category.name === 'Role Relevance') {
+            score = Math.min(score, maxRole);
+            if (level === 'advanced') score = Math.max(score, 5);
+        }
+
+        return {
+            name: category.name,
+            score,
+            verdict: removeDashes(category.verdict),
+            strength: removeDashes(category.strength),
+            gap: removeDashes(category.gap)
+        };
+    });
 
     let weightedSum = 0;
     let weightTotal = 0;
@@ -193,11 +271,5 @@ export const formatAnalysis = (analysis, level) => {
             : { title: removeDashes(item.title), detail: removeDashes(item.detail) }
     );
 
-    return {
-        level,
-        overall,
-        categories,
-        relevantRepos: Array.isArray(analysis.relevantRepos) ? analysis.relevantRepos : [],
-        actionItems
-    };
+    return { level, overall, categories, relevantRepos, actionItems };
 };

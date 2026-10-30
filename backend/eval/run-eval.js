@@ -8,7 +8,7 @@ const CASES = [
     { username: 'torvalds', role: 'AI Engineer', tier: 'elite', expected: [6, 8] },
     { username: 'gaearon', role: 'Frontend Engineer', tier: 'elite', expected: [8, 10] },
     { username: 'karpathy', role: 'AI Engineer', tier: 'elite', expected: [8, 10] },
-    { username: 'tj', role: 'Backend Engineer', tier: 'elite', expected: [8, 10] },
+    { username: 'tj', role: 'Backend Engineer', tier: 'elite', expected: [4, 7] },
     { username: 'sara-deshpande', role: 'AI Engineer', tier: 'intermediate', expected: [5, 7] },
     { username: 'sara-deshpande', role: 'Full-Stack Engineer', tier: 'intermediate', expected: [5, 8] },
     { username: 'FRIEND_1', role: 'Software Engineer', tier: 'intermediate', expected: [5, 7] },
